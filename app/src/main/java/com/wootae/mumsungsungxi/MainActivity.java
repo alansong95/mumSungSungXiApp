@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
     }
 
     @Override
