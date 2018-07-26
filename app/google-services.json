@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148188391376",
+    "firebase_url": "https://mum-sungsung-xi.firebaseio.com",
+    "project_id": "mum-sungsung-xi",
+    "storage_bucket": "mum-sungsung-xi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148188391376:android:99b67492045d7431",
+        "android_client_info": {
+          "package_name": "com.wootae.mumsungsungxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148188391376-8e5h8suea1un7vda5vfilsfs8snjk7c7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wootae.mumsungsungxi",
+            "certificate_hash": "7a71c117312a9f8f6dc92fab976ab109138a9536"
+          }
+        },
+        {
+          "client_id": "148188391376-6cb523qhh8kv8d6anafe6mjr17mliqfu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEmJa3xUkSf9PuK7OYGGmK8xLERvBAXbo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148188391376-6cb523qhh8kv8d6anafe6mjr17mliqfu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
