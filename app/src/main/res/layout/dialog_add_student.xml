@@ -23,11 +23,11 @@
         android:id="@+id/et_phone_number"
         android:hint="@string/phone_number" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_email"
-        android:hint="@string/email" />
+    <!--<EditText-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/et_email"-->
+        <!--android:hint="@string/email" />-->
 
     <Spinner
         android:layout_width="match_parent"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mu:m Sungsung Xi</string>
+    <string name="app_name">뮤엠 성성자이NEST</string>
 
     <!--addstudentdialog-->
     <string name="name">이름</string>
@@ -12,4 +12,22 @@
     <string name="enter_name">이름을 입력해 주세요.</string>
     <string name="enter_number">전화번호를 입력해 주세요.</string>
     <string name="select_section">섹션을 선택해 주세요.</string>
+
+    <!--classes-->
+    <string-array name="classes">
+        <item>1교시</item>
+        <item>2교시</item>
+        <item>3교시</item>
+        <item>4교시</item>
+        <item>5교시</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name="class1">1교시</string>-->
+    <!--<string name="class2">2교시</string>-->
+    <!--<string name="class3">3교시</string>-->
+    <!--<string name="class4">4교시</string>-->
+    <!--<string name="class5">5교시</string>-->
+
 </resources>

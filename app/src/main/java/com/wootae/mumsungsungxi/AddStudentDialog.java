@@ -30,13 +30,13 @@ public class AddStudentDialog extends DialogFragment {
 
     private EditText etName;
     private EditText etPhoneNumber;
-    private EditText etEmail;
+//    private EditText etEmail;
     private Spinner spinnerSection;
     private Button btnConfirm;
 
     private String name;
     private String phoneNumber;
-    private String email;
+//    private String email;
     private String section;
 
     @Override
@@ -57,7 +57,7 @@ public class AddStudentDialog extends DialogFragment {
 
         etName = (EditText) view.findViewById(R.id.et_name);
         etPhoneNumber = (EditText) view.findViewById(R.id.et_phone_number);
-        etEmail = (EditText) view.findViewById(R.id.et_email);
+//        etEmail = (EditText) view.findViewById(R.id.et_email);
         spinnerSection = (Spinner)  view.findViewById(R.id.spinner_section);
         btnConfirm = view.findViewById(R.id.btn_confirm);
 
@@ -66,7 +66,7 @@ public class AddStudentDialog extends DialogFragment {
             public void onClick(View view) {
                 name = etName.getText().toString();
                 phoneNumber = etPhoneNumber.getText().toString();
-                email = etEmail.getText().toString();
+//                email = etEmail.getText().toString();
 //                section = spinnerSection.getSelectedItem().toString();
                 section = "o";
 
@@ -80,7 +80,7 @@ public class AddStudentDialog extends DialogFragment {
                     String[] studentData = new String[4];
                     studentData[0] = name;
                     studentData[1] = phoneNumber;
-                    studentData[2] = email;
+//                    studentData[2] = email;
                     studentData[3] = section;
 
                     mListener.onComplete(studentData);
@@ -91,40 +91,6 @@ public class AddStudentDialog extends DialogFragment {
 
         builder.setView(view);
         builder.setTitle(R.string.add_student);
-//        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                name = etName.getText().toString();
-//                phoneNumber = etPhoneNumber.getText().toString();
-//                email = etEmail.getText().toString();
-////                section = spinnerSection.getSelectedItem().toString();
-//                section = "o";
-//
-//                if (TextUtils.isEmpty(name)) {
-//                    Toast.makeText(getActivity().getApplicationContext(), R.string.enter_name, Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (TextUtils.isEmpty(phoneNumber)) {
-//                    Toast.makeText(getActivity().getApplicationContext(), R.string.enter_number, Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (section.equals("선택")) {
-//                    Toast.makeText(getActivity().getApplicationContext(), R.string.select_section, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//
-//                String[] studentData = new String[4];
-//                studentData[0] = name;
-//                studentData[1] = phoneNumber;
-//                studentData[2] = email;
-//                studentData[3] = section;
-//
-//                mListener.onComplete(studentData);
-//            }
-//        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
 
         return builder.create();
     }
