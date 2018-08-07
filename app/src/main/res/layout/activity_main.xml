@@ -4,55 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/material_design_padding"
+    android:paddingLeft="@dimen/material_design_padding"
+    android:paddingRight="@dimen/material_design_padding"
+    android:paddingTop="@dimen/material_design_padding"
     tools:context="com.wootae.mumsungsungxi.MainActivity">
 
-    <ImageView
-        android:id="@+id/main_activity_imageview"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@color/cardview_light_background"/>
-
-    <GridLayout
-        android:layout_below="@id/main_activity_imageview"
-        android:id="@+id/main_activity_gridlayout"
-        android:layout_width="match_parent"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:rowCount="4">
-
-            <com.wootae.mumsungsungxi.GridItemView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </com.wootae.mumsungsungxi.GridItemView>
-
-        <com.wootae.mumsungsungxi.GridItemView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </com.wootae.mumsungsungxi.GridItemView>
-
-        <com.wootae.mumsungsungxi.GridItemView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </com.wootae.mumsungsungxi.GridItemView>
-
-        <com.wootae.mumsungsungxi.GridItemView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </com.wootae.mumsungsungxi.GridItemView>
-
-        <com.wootae.mumsungsungxi.GridItemView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </com.wootae.mumsungsungxi.GridItemView>
-
-
-
-
-    </GridLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin" />
 
 </RelativeLayout>
