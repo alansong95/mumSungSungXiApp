@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -33,6 +34,7 @@ public class AddStudentDialog extends DialogFragment {
 //    private EditText etEmail;
     private Spinner spinnerSection;
     private Button btnConfirm;
+    private Button btnCancel;
 
     private String name;
     private String phoneNumber;
@@ -60,32 +62,45 @@ public class AddStudentDialog extends DialogFragment {
 //        etEmail = (EditText) view.findViewById(R.id.et_email);
         spinnerSection = (Spinner)  view.findViewById(R.id.spinner_section);
         btnConfirm = view.findViewById(R.id.btn_confirm);
+        btnCancel = view.findViewById(R.id.btn_cancel);
 
+        // Spinner set up
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_dropdown));
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSection.setAdapter(spinnerAdapter);
+
+        // Confirm button
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 name = etName.getText().toString();
                 phoneNumber = etPhoneNumber.getText().toString();
 //                email = etEmail.getText().toString();
-//                section = spinnerSection.getSelectedItem().toString();
-                section = "o";
+                section = spinnerSection.getSelectedItem().toString();
 
                 if (TextUtils.isEmpty(name)) {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.enter_name, Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(phoneNumber)) {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.enter_number, Toast.LENGTH_SHORT).show();
-                } else if (section.equals("선택")) {
+                } else if (section.equals("섹션 선택")) {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.select_section, Toast.LENGTH_SHORT).show();
                 } else {
-                    String[] studentData = new String[4];
+                    String[] studentData = new String[3];
                     studentData[0] = name;
                     studentData[1] = phoneNumber;
 //                    studentData[2] = email;
-                    studentData[3] = section;
+                    studentData[2] = section;
 
                     mListener.onComplete(studentData);
                     dismiss();
                 }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
             }
         });
 

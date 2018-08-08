@@ -22,6 +22,16 @@
         <item>5교시</item>
     </string-array>
 
+    <!--spinner class name drop down-->
+    <string-array name="spinner_dropdown">
+        <item>섹션 선택</item>
+        <item>1교시</item>
+        <item>2교시</item>
+        <item>3교시</item>
+        <item>4교시</item>
+        <item>5교시</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--<string name="class1">1교시</string>-->

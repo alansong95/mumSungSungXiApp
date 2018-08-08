@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/et_phone_number"
+        android:inputType="number"
         android:hint="@string/phone_number" />
 
     <!--<EditText-->
