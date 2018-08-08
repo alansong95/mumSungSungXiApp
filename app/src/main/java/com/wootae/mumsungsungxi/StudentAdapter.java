@@ -1,14 +1,9 @@
 package com.wootae.mumsungsungxi;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -28,12 +22,24 @@ import java.util.List;
 
 
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
+    public interface EditStudentRequestListener {
+        void editStudentRequest(Student student);
+    }
+
+    private EditStudentRequestListener mListener;
+
     private Context mContext;
     private List<Student> students;
 
     public StudentAdapter(Context context, List<Student> students) {
         this.mContext = context;
         this.students = students;
+
+        try {
+            this.mListener = (EditStudentRequestListener) context;
+        } catch (final ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement EditStudentListener");
+        }
     }
 
     @Override
@@ -127,10 +133,9 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 //                    Intent intent = new Intent(mContext, EditStudentActivity.class);
 //                    intent.putExtra("uid", student.getUid());
 //                    ((Activity) mContext).startActivityForResult(intent, MainActivity.EDIT_STUDNET_REQUEST);
-                    Toast.makeText(mContext, "EDIT: " + student.getName() , Toast.LENGTH_SHORT).show();
+                    mListener.editStudentRequest(student);
                     return true;
                 case R.id.menu_delete:
-                    Toast.makeText(mContext, "DELETE", Toast.LENGTH_SHORT).show();
                     MainActivity.deleteStudentFromDatabase(student);
                     return true;
                 default:

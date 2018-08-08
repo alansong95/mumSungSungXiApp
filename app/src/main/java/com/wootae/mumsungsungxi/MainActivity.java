@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -27,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddStudentDialog.OnCompleteListener {
+public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener {
     // Debug
     private static final String TAG = "MainActivity_Debug";
 
@@ -36,12 +33,12 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
-    private List<Student> students;
+    private static List<Student> students;
     private static String arrivedMessage;
     private static String departureMessage;
 
     // Classes
-    private String[] classNames;
+    private static String[] classNames;
     public static List<Student> classOne;
     public static List<Student> classTwo;
     public static List<Student> classThree;
@@ -72,8 +69,26 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     ViewPagerAdapter mViewPagerAdapter;
 
     // AddStudentDialog Listener
-    public void onComplete(String[] studentData) {
+    public void addNewStudent(String[] studentData) {
         addStudentToDatabase(studentData[0], studentData[1], studentData[2]);
+    }
+
+    // StudentAdapter Listener (Edit Student Request)
+    public void editStudentRequest(Student student) {
+        Toast.makeText(this, "EDIT: " + student.getName(), Toast.LENGTH_SHORT).show();
+        EditStudentDialog editStudentDialog = new EditStudentDialog();
+
+        Bundle args = new Bundle();
+        args.putString("uid", student.getUid());
+        editStudentDialog.setArguments(args);
+
+        editStudentDialog.show(getSupportFragmentManager(), "");
+        editStudentDialog.setCancelable(false);
+    }
+
+    // EditStudentDialog Listener
+    public void editStudent(String[] studentData) {
+        editStudentOnDatabase(studentData[0], studentData[1], studentData[2], studentData[3]);
     }
 
     @Override
@@ -183,12 +198,66 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     // Hakwon methods
     public static void addStudentToDatabase(String name, String phoneNumber, String section) {
         Student student = new Student(name, phoneNumber, section);
+        numOfStudents++;
 
         DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
         mStudentRef.setValue(student);
     }
     public static void deleteStudentFromDatabase(Student student) {
         mStudentsRef.child(student.getUid()).removeValue();
+    }
+    public static void editStudentOnDatabase(String name, String phoneNumber, String section, String uid) {
+        Student student = getStudent(uid);
+        String oldSection = student.getSection();
+
+        student.setName(name);
+        student.setPhoneNumber(phoneNumber);
+        student.setSection(section);
+
+        int index = students.indexOf(student);
+        students.set(index, student);
+
+        boolean temp = false;
+        if (oldSection.equals(classNames[0])) {
+            temp = classOne.remove(student);
+        } else if (oldSection.equals(classNames[1])) {
+            temp = classTwo.remove(student);
+        } else if (oldSection.equals(classNames[2])) {
+            temp = classThree.remove(student);
+        } else if (oldSection.equals(classNames[3])) {
+            temp = classFour.remove(student);
+        } else if (oldSection.equals(classNames[4])) {
+            temp = classFive.remove(student);
+        } else {
+            Log.d(TAG, "Wrong Section");
+        }
+
+        if (section.equals(classNames[0])) {
+            classOne.add(student);
+        } else if (section.equals(classNames[1])) {
+            classTwo.add(student);
+        } else if (section.equals(classNames[2])) {
+            classThree.add(student);
+        } else if (section.equals(classNames[3])) {
+            classFour.add(student);
+        } else if (section.equals(classNames[4])) {
+            classFive.add(student);
+        } else {
+            Log.d(TAG, "Wrong Section");
+        }
+
+        DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
+        mStudentRef.setValue(student);
+
+    }
+
+    public static Student getStudent(String uid) {
+        for (Student student : students) {
+            if (student.getUid().equals(uid)) {
+                return student;
+            }
+        }
+        return null;
     }
 
 
@@ -222,7 +291,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                    mViewPagerAdapter.notifyDataSetChanged();
                 }
 
                 @Override

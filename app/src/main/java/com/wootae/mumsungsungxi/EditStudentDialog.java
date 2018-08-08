@@ -18,12 +18,14 @@ import android.widget.Toast;
  * Created by Alan on 8/7/2018.
  */
 
-public class AddStudentDialog extends DialogFragment {
-    public interface AddStudentListener {
-        void addNewStudent(String[] studentData);
+public class EditStudentDialog extends DialogFragment {
+    public interface EditStudentListener {
+        void editStudent(String[] studentData);
     }
 
-    private AddStudentListener mListener;
+    private EditStudentListener mListener;
+
+    private Student student;
 
     private EditText etName;
     private EditText etPhoneNumber;
@@ -41,7 +43,7 @@ public class AddStudentDialog extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            this.mListener = (AddStudentListener) context;
+            this.mListener = (EditStudentListener) context;
         } catch (final ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement EditStudentListener");
         }
@@ -52,6 +54,10 @@ public class AddStudentDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_add_student, null);
+
+        String uid = getArguments().getString("uid");
+//        Toast.makeText(getActivity(), "uid: " + uid, Toast.LENGTH_SHORT).show();
+        student = MainActivity.getStudent(uid);
 
         etName = (EditText) view.findViewById(R.id.et_name);
         etPhoneNumber = (EditText) view.findViewById(R.id.et_phone_number);
@@ -64,6 +70,14 @@ public class AddStudentDialog extends DialogFragment {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_dropdown));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSection.setAdapter(spinnerAdapter);
+
+        etName.setText(student.getName());
+        etPhoneNumber.setText(student.getPhoneNumber());
+//        etEmail.setText(student.getEmail());
+        int spinnerPosition = spinnerAdapter.getPosition(student.getSection());
+        spinnerSection.setSelection(spinnerPosition);
+
+
 
         // Confirm button
         btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -81,13 +95,13 @@ public class AddStudentDialog extends DialogFragment {
                 } else if (section.equals("섹션 선택")) {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.select_section, Toast.LENGTH_SHORT).show();
                 } else {
-                    String[] studentData = new String[3];
+                    String[] studentData = new String[4];
                     studentData[0] = name;
                     studentData[1] = phoneNumber;
-//                    studentData[2] = email;
                     studentData[2] = section;
+                    studentData[3] = student.getUid();
 
-                    mListener.addNewStudent(studentData);
+                    mListener.editStudent(studentData);
                     dismiss();
                 }
             }
@@ -101,7 +115,7 @@ public class AddStudentDialog extends DialogFragment {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.add_student);
+        builder.setTitle(R.string.edit_student);
 
         return builder.create();
     }
