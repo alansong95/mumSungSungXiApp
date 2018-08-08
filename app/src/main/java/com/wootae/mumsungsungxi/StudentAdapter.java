@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,7 +44,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     @Override
     public void onBindViewHolder(final StudentViewHolder holder, int position) {
-        final Student student = students.get(position);
+//        final Student student = students.get(position);
+        Student student = students.get(position);
         holder.name.setText(student.getName());
         holder.mCardView.setTag(student);
 
@@ -67,6 +69,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             @Override
             public void onClick(View view) {
 //                showPopupMenu(holder.overflow, student);
+                showPopupMenu(holder.overflow, (Student) holder.mCardView.getTag());
             }
         });
 
@@ -84,8 +87,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             super(view);
 
             name  = view.findViewById(R.id.tv_name);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+            overflow = view.findViewById(R.id.overflow);
+            thumbnail = view.findViewById(R.id.thumbnail);
 
             mCardView = view.findViewById(R.id.card_view);
 
@@ -99,44 +102,42 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         }
     }
 
-
-
-//    private void showPopupMenu(View view, Student student) {
-//        // inflate menu
-//        PopupMenu popup = new PopupMenu(mContext, view);
-//        MenuInflater inflater = popup.getMenuInflater();
-//        inflater.inflate(R.menu.menu_student, popup.getMenu());
-//        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(student));
-//        popup.show();
-//    }
+    private void showPopupMenu(View view, Student student) {
+        // inflate menu
+        PopupMenu popup = new PopupMenu(mContext, view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_student, popup.getMenu());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener(student));
+        popup.show();
+    }
 
     /**
      * Click listener for popup menu items
      */
-//    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
-//        Student student;
-//        public MyMenuItemClickListener(Student student) {
-//            this.student = student;
-//        }
-//
-//        @Override
-//        public boolean onMenuItemClick(MenuItem menuItem) {
-//            switch (menuItem.getItemId()) {
-//                case R.id.menu_edit:
+    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
+        Student student;
+        public MyMenuItemClickListener(Student student) {
+            this.student = student;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_edit:
 //                    Intent intent = new Intent(mContext, EditStudentActivity.class);
 //                    intent.putExtra("uid", student.getUid());
 //                    ((Activity) mContext).startActivityForResult(intent, MainActivity.EDIT_STUDNET_REQUEST);
-//
-//                    return true;
-//                case R.id.menu_delete:
-//                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-//                    Hakwon.deleteStudentFromDatabase(student);
-//                    return true;
-//                default:
-//            }
-//            return false;
-//        }
-//    }
+                    Toast.makeText(mContext, "EDIT: " + student.getName() , Toast.LENGTH_SHORT).show();
+                    return true;
+                case R.id.menu_delete:
+                    Toast.makeText(mContext, "DELETE", Toast.LENGTH_SHORT).show();
+                    MainActivity.deleteStudentFromDatabase(student);
+                    return true;
+                default:
+            }
+            return false;
+        }
+    }
 
     @Override
     public long getItemId(int position) {

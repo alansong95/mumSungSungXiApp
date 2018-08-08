@@ -61,6 +61,25 @@ public class Student {
         return uid.hashCode();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Student)) {
+            return false;
+        }
+
+        Student s = (Student) obj;
+
+        if (this.uid.equals(s.getUid())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // Debug
     @Override
     public String toString() {

@@ -29,10 +29,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddStudentDialog.OnCompleteListener {
     // Debug
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity_Debug";
 
     // Static variables
-    public static final int NUMBER_OF_CLASSES = 5;
+    public static final int NUM_OF_CLASSES = 5;
 
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
         mStudentRef.setValue(student);
     }
+    public static void deleteStudentFromDatabase(Student student) {
+        mStudentsRef.child(student.getUid()).removeValue();
+    }
 
 
     // Firebase real-time database
@@ -196,19 +199,20 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Student student = dataSnapshot.getValue(Student.class);
                     students.add(student);
+                    String section = student.getSection();
 
-                    if (student.getSection().equals(classNames[0])) {
+                    if (section.equals(classNames[0])) {
                         classOne.add(student);
-                    } else if (student.getSection().equals(classNames[1])) {
+                    } else if (section.equals(classNames[1])) {
                         classTwo.add(student);
-                    } else if (student.getSection().equals(classNames[2])) {
+                    } else if (section.equals(classNames[2])) {
                         classThree.add(student);
-                    } else if (student.getSection().equals(classNames[3])) {
+                    } else if (section.equals(classNames[3])) {
                         classFour.add(student);
-                    } else if (student.getSection().equals(classNames[4])) {
+                    } else if (section.equals(classNames[4])) {
                         classFive.add(student);
                     } else {
-                        Log.d("TAG", "Wrong Section");
+                        Log.d(TAG, "Wrong Section");
                     }
 
                     mViewPagerAdapter.notifyDataSetChanged();
@@ -222,7 +226,29 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Student student = dataSnapshot.getValue(Student.class);
+                    String section = student.getSection();
+                    Log.d(TAG, "student: " + student);
 
+                    boolean temp = false;
+
+                    if (section.equals(classNames[0])) {
+                        temp = classOne.remove(student);
+                    } else if (section.equals(classNames[1])) {
+                        temp = classTwo.remove(student);
+                    } else if (section.equals(classNames[2])) {
+                        temp = classThree.remove(student);
+                    } else if (section.equals(classNames[3])) {
+                        temp = classFour.remove(student);
+                    } else if (section.equals(classNames[4])) {
+                        temp = classFive.remove(student);
+                    } else {
+                        Log.d(TAG, "Wrong Section");
+                    }
+                    Log.d(TAG, "asd: " + temp);
+                    temp = students.remove(student);
+                    Log.d(TAG, "asd: " + temp);
+                    mViewPagerAdapter.notifyDataSetChanged();
                 }
 
                 @Override

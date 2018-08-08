@@ -36,7 +36,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return MainActivity.NUMBER_OF_CLASSES;
+        return MainActivity.NUM_OF_CLASSES;
     }
 
     @Override

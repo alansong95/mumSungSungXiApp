@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">뮤엠 성성자이NEST</string>
 
+    <string name="edit">편집</string>
+    <string name="delete">삭제</string>
+
     <!--addstudentdialog-->
     <string name="name">이름</string>
     <string name="phone_number">전화번호</string>
