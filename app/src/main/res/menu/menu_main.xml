@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.song.alan.mumxiattendance.MainActivity">
+
+    <item
+        android:id="@+id/edit_messages"
+        android:orderInCategory="98"
+        android:title="@string/edit_messages"
+        app:showAsAction="never" />
+
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="99"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
+
+    <item
+        android:id="@+id/logout"
+        android:orderInCategory="100"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test"
+        android:orderInCategory="1000"
+        android:title="TEST"
+        app:showAsAction="never" />
+
+</menu>

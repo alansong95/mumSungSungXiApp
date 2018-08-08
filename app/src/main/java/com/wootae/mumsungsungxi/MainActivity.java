@@ -1,5 +1,7 @@
 package com.wootae.mumsungsungxi;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     // Static variables
     public static final int NUM_OF_CLASSES = 5;
+
+
 
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
@@ -84,6 +90,17 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
         editStudentDialog.show(getSupportFragmentManager(), "");
         editStudentDialog.setCancelable(false);
+    }
+    public void openMessageDialog(Student student) {
+        Toast.makeText(this, "Opening Message Dialog for: " + student.getName(), Toast.LENGTH_SHORT).show();
+        messageDialog editStudentDialog = new messageDialog();
+
+        Bundle args = new Bundle();
+        args.putString("uid", student.getUid());
+        editStudentDialog.setArguments(args);
+
+        editStudentDialog.show(getSupportFragmentManager(), "");
+//        editStudentDialog.setCancelable(false);
     }
 
     // EditStudentDialog Listener
@@ -163,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     }
 
+    // MainActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -175,14 +193,12 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             }
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
 
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -192,6 +208,27 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         detachDatabaseReadListener();
         clearLists();
 //        mViewPagerAdapter.clear();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_messages:
+                return true;
+            case R.id.logout:
+                AuthUI.getInstance().signOut(this);
+                return true;
+            case R.id.test:
+                printStatus();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -259,6 +296,11 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         }
         return null;
     }
+
+    public static void sendMessage(Student student, studentStatus status) {
+        Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
+    }
+
 
 
     // Firebase real-time database
@@ -360,4 +402,34 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
 
 
+    // debug
+    public void printStatus() {
+        String temp = "DEBUG_STATUS";
+        Log.d(temp, "Printing the current status");
+        Log.d(temp, "students list: ");
+        for (Student student : students) {
+            Log.d(temp, student.toString());
+        }
+
+        Log.d(temp, "classOne list: ");
+        for (Student student : classOne) {
+            Log.d(temp, student.toString());
+        }
+        Log.d(temp, "classTwo list: ");
+        for (Student student : classTwo) {
+            Log.d(temp, student.toString());
+        }
+        Log.d(temp, "classThree list: ");
+        for (Student student : classThree) {
+            Log.d(temp, student.toString());
+        }
+        Log.d(temp, "classFour list: ");
+        for (Student student : classFour) {
+            Log.d(temp, student.toString());
+        }
+        Log.d(temp, "classFive list: ");
+        for (Student student : classFive) {
+            Log.d(temp, student.toString());
+        }
+    }
 }

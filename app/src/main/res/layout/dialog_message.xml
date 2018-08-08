@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/material_design_padding"
+    android:paddingLeft="@dimen/material_design_padding"
+    android:paddingRight="@dimen/material_design_padding"
+    android:paddingTop="@dimen/material_design_padding">
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#008000"
+        android:textColor="#FFFFFF"
+        android:text="등원" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#0000FF"
+        android:textColor="#FFFFFF"
+        android:text="하원" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#FF0000"
+        android:textColor="#FFFFFF"
+        android:text="결석" />
+
+
+</LinearLayout>

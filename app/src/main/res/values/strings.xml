@@ -4,6 +4,10 @@
     <string name="edit">편집</string>
     <string name="delete">삭제</string>
 
+    <!--menu-->
+    <string name="logout">로그아웃</string>
+    <string name="edit_messages">메세지 편집</string>
+
     <!--addstudentdialog-->
     <string name="name">이름</string>
     <string name="phone_number">전화번호</string>

@@ -24,6 +24,7 @@ import java.util.List;
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
     public interface EditStudentRequestListener {
         void editStudentRequest(Student student);
+        void openMessageDialog(Student student);
     }
 
     private EditStudentRequestListener mListener;
@@ -67,14 +68,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                openSMSDialog(student);
+                mListener.openMessageDialog((Student) holder.mCardView.getTag());
             }
         });
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                showPopupMenu(holder.overflow, student);
                 showPopupMenu(holder.overflow, (Student) holder.mCardView.getTag());
             }
         });
@@ -101,8 +101,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Student student = (Student) mCardView.getTag();
-//                    openSMSDialog(student);
+                    mListener.openMessageDialog((Student) mCardView.getTag());
                 }
             });
         }
@@ -130,9 +129,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.menu_edit:
-//                    Intent intent = new Intent(mContext, EditStudentActivity.class);
-//                    intent.putExtra("uid", student.getUid());
-//                    ((Activity) mContext).startActivityForResult(intent, MainActivity.EDIT_STUDNET_REQUEST);
                     mListener.editStudentRequest(student);
                     return true;
                 case R.id.menu_delete:
@@ -154,13 +150,4 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         return students.size();
     }
 
-//    public void openSMSDialog(Student student) {
-//        Toast.makeText(mContext, student.getName(),Toast.LENGTH_SHORT).show();
-//
-//        SMSDialog classNameDialog = new SMSDialog();
-//        Bundle args = new Bundle();
-//        args.putString("uid", student.getUid());
-//        classNameDialog.setArguments(args);
-//        classNameDialog.show(((FragmentActivity) mContext).getSupportFragmentManager(), "sms dialog");
-//    }
 }
