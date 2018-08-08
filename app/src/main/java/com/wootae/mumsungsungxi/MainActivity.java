@@ -3,12 +3,16 @@ package com.wootae.mumsungsungxi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -176,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         mStudentAdapterFour = new StudentAdapter(this, classFour);
         mStudentAdapterFive = new StudentAdapter(this, classFive);
 
-
+        requestMessagePermission();
 
     }
 
@@ -400,8 +404,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         students.clear();
     }
 
-
-
     // debug
     public void printStatus() {
         String temp = "DEBUG_STATUS";
@@ -430,6 +432,32 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         Log.d(temp, "classFive list: ");
         for (Student student : classFive) {
             Log.d(temp, student.toString());
+        }
+    }
+
+
+    // Message
+    private void requestMessagePermission() {
+        String permission = "android.permission.SEND_SMS";
+        int grant = ContextCompat.checkSelfPermission(this, permission);
+        if (grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
+    }
+
+    public void sendMessage(String message, Student student) {
+        // sending sms
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(student.getPhoneNumber(), null, message, null, null);
+            Toast.makeText(this, "Message Sent",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(this,ex.getMessage().toString(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
         }
     }
 }
