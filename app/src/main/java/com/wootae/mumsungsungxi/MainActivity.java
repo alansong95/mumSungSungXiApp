@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             public void onClick(View view) {
                 AddStudentDialog addStudentDialog = new AddStudentDialog();
                 addStudentDialog.show(getSupportFragmentManager(), "");
+                addStudentDialog.setCancelable(false);
             }
         });
 
