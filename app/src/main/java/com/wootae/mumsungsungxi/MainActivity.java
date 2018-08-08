@@ -39,13 +39,11 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     // Static variables
     public static final int NUM_OF_CLASSES = 5;
 
-
-
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
     private static List<Student> students;
-    private static String arrivedMessage;
-    private static String departureMessage;
+    public static String arrivalMessage;
+    public static String departureMessage;
 
     // Classes
     private static String[] classNames;
@@ -69,9 +67,11 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     private static final int RC_SIGN_IN = 123;
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     private static final DatabaseReference mStudentsRef = mRootRef.child("students");
+    public static DatabaseReference mCustomMessagesRef = mRootRef.child("customMessages");
 
     // Firebase 2
     private ChildEventListener mStudentEventListener;
+    private ChildEventListener mCustomMessagesEventListener;
 
     // Layout
     TabLayout mTabLayout;
@@ -223,6 +223,9 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_messages:
+                EditMessagesDialog editMessagesDialog = new EditMessagesDialog();
+                editMessagesDialog.show(getSupportFragmentManager(), "");
+//                editMessagesDialog.setCancelable(false);
                 return true;
             case R.id.logout:
                 AuthUI.getInstance().signOut(this);
@@ -379,12 +382,53 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             };
             mStudentsRef.addChildEventListener(mStudentEventListener);
         }
+
+        if (mCustomMessagesEventListener == null) {
+            mCustomMessagesEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    if (dataSnapshot.getKey().equals("arrival")) {
+                        arrivalMessage = dataSnapshot.getValue().toString();
+                    } else if (dataSnapshot.getKey().equals("departure")) {
+                        departureMessage = dataSnapshot.getValue().toString();
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    if (dataSnapshot.getKey().equals("arrival")) {
+                        arrivalMessage = dataSnapshot.getValue().toString();
+                    } else if (dataSnapshot.getKey().equals("departure")) {
+                        departureMessage = dataSnapshot.getValue().toString();
+                    }
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mCustomMessagesRef.addChildEventListener(mCustomMessagesEventListener);
+        }
     }
 
     private void detachDatabaseReadListener() {
         if (mStudentEventListener != null) {
             mStudentsRef.removeEventListener(mStudentEventListener);
             mStudentEventListener = null;
+        }
+        if (mCustomMessagesEventListener != null) {
+            mCustomMessagesRef.removeEventListener(mCustomMessagesEventListener);
         }
     }
 
@@ -433,6 +477,9 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         for (Student student : classFive) {
             Log.d(temp, student.toString());
         }
+
+        Log.d(temp, arrivalMessage);
+        Log.d(temp, departureMessage);
     }
 
 

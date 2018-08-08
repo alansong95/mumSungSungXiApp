@@ -37,16 +37,17 @@
         android:hint="@string/section" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="end">
+        >
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btn_cancel"
             android:text="@string/cancel"
+            android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"/>
 
         <Button
@@ -54,6 +55,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_confirm"
             android:text="@string/confirm"
+            android:layout_weight="1"
             style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 

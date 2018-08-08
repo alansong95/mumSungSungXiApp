@@ -3,6 +3,23 @@
 
     <string name="edit">편집</string>
     <string name="delete">삭제</string>
+    <string name="restore">복원</string>
+
+    <!--alerts-->
+    <string name="alert_custom_messages_set">메세지가 적용되었습니다.</string>
+
+    <!--dialog messages-->
+    <string name="departure_message">하원 메세지</string>
+    <string name="arrival_message">등원 메세지</string>
+    <string name="howto_edit_messages">사용법: \n아이의 이름이 들어갈 곳에 ㅇㅇㅇ를 써주세요.\n\n</string>
+    <string name="default_arrival">★ 뮤엠성성자이NEST공부방 안심 출결 ★\n ㅇㅇㅇ 학생이 학원에\n 안전하게 등원하였습니다.</string>
+    <string name="default_departure">★ 뮤엠성성자이NEST공부방 안심 출결 ★\n ㅇㅇㅇ 학생이 학원에서\n 안전하게 하원하였습니다.</string>
+
+
+    <!--message dialog-->
+    <string name="arrival">등원</string>
+    <string name="departure">하원</string>
+    <string name="absent">결석</string>
 
     <!--menu-->
     <string name="logout">로그아웃</string>

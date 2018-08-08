@@ -14,36 +14,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="50dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:textSize="50sp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:layout_marginBottom="3dp"
         android:background="#008000"
         android:textColor="#FFFFFF"
-        android:text="등원" />
+        android:text="@string/arrival" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="50dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:textSize="50sp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:layout_marginBottom="3dp"
         android:background="#0000FF"
         android:textColor="#FFFFFF"
-        android:text="하원" />
+        android:text="@string/departure" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textSize="50dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:textSize="50sp"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
         android:background="#FF0000"
         android:textColor="#FFFFFF"
-        android:text="결석" />
+        android:text="@string/absent" />
 
 
 </LinearLayout>
