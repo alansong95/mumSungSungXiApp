@@ -44,7 +44,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         return classNames[position];
     }
 
-//    public int getItemPosition(Object object) {
-//        return POSITION_NONE;
-//    }
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }

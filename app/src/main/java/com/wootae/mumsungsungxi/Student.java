@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 
 public class Student {
-    private static int numOfStudents = 0;
+//    private static int numOfStudents = 0;
 
     private String uid;
     private String name;
@@ -16,13 +16,16 @@ public class Student {
     private String section;
 //    private String mProfileImageUrl;
 
+    public Student() {
+    }
+
     public Student(String name, String phoneNumber, String section) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.section = section;
         this.uid = UUID.randomUUID().toString();
 
-        numOfStudents++;
+//        numOfStudents++;
     }
 
     // getters & setters
@@ -49,9 +52,9 @@ public class Student {
         return uid;
     }
 
-    public static int getNumOfStudents() {
-        return numOfStudents;
-    }
+//    public static int getNumOfStudents() {
+//        return numOfStudents;
+//    }
 
     @Override
     public int hashCode() {
