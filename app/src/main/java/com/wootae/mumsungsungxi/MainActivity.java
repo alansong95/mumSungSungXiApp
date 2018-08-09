@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -27,6 +29,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     // Static variables
     public static final int NUM_OF_CLASSES = 5;
+    public static final int RC_PHOTO_PICKER_ADD = 1;
 
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
@@ -61,13 +67,17 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public static StudentAdapter mStudentAdapterFive;
 
 
-    // Firebase
+    // Firebase auth & real-time database
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private static final int RC_SIGN_IN = 123;
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     private static final DatabaseReference mStudentsRef = mRootRef.child("students");
     public static DatabaseReference mCustomMessagesRef = mRootRef.child("customMessages");
+
+    // Firebase storage
+    private static FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
+    private static StorageReference mProfilePictureStorageReference = mFirebaseStorage.getReference().child("profilePictures");
 
     // Firebase 2
     private ChildEventListener mStudentEventListener;
@@ -79,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     ViewPagerAdapter mViewPagerAdapter;
 
     // AddStudentDialog Listener
-    public void addNewStudent(String[] studentData) {
-        addStudentToDatabase(studentData[0], studentData[1], studentData[2]);
+    public void addNewStudent(String[] studentData, Uri pictureUrl) {
+        addStudentToDatabase(studentData[0], studentData[1], studentData[2], pictureUrl);
     }
 
     // StudentAdapter Listener (Edit Student Request)
@@ -240,12 +250,27 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
 
     // Hakwon methods
-    public static void addStudentToDatabase(String name, String phoneNumber, String section) {
-        Student student = new Student(name, phoneNumber, section);
-        numOfStudents++;
+    public void addStudentToDatabase(final String name, final String phoneNumber, final String section, Uri pictureUrl) {
+        if (pictureUrl == null) {
+            Student student = new Student(name, phoneNumber, section, "");
+            DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
 
-        DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
-        mStudentRef.setValue(student);
+            mStudentRef.setValue(student);
+            numOfStudents++;
+        } else {
+            StorageReference profilePictureRef = mProfilePictureStorageReference.child(pictureUrl.getLastPathSegment());
+            profilePictureRef.putFile(pictureUrl).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Uri downloadUri = taskSnapshot.getDownloadUrl();
+                    Student student = new Student(name, phoneNumber, section, downloadUri.toString());
+                    DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
+
+                    mStudentRef.setValue(student);
+                    numOfStudents++;
+                }
+            });
+        }
     }
     public static void deleteStudentFromDatabase(Student student) {
         mStudentsRef.child(student.getUid()).removeValue();

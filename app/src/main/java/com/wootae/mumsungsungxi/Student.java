@@ -1,5 +1,7 @@
 package com.wootae.mumsungsungxi;
 
+import android.net.Uri;
+
 import java.util.UUID;
 
 /**
@@ -15,16 +17,17 @@ public class Student {
     private String phoneNumber;
     private String section;
 //    private String mProfileImageUrl;
+    private String pictureUri;
 
     public Student() {
     }
 
-    public Student(String name, String phoneNumber, String section) {
+    public Student(String name, String phoneNumber, String section, String pictureUri) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.section = section;
         this.uid = UUID.randomUUID().toString();
-
+        this.pictureUri = pictureUri;
 //        numOfStudents++;
     }
 
@@ -37,6 +40,9 @@ public class Student {
     }
     public void setSection(String section) {
         this.section = section;
+    }
+    public void setPictureUri(String pictureUri) {
+        this.pictureUri = pictureUri;
     }
 
     public String getName() {
@@ -51,6 +57,7 @@ public class Student {
     public String getUid() {
         return uid;
     }
+    public String getPictureUri() { return pictureUri; };
 
 //    public static int getNumOfStudents() {
 //        return numOfStudents;

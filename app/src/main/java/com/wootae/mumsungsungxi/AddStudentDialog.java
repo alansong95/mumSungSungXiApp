@@ -3,6 +3,8 @@ package com.wootae.mumsungsungxi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -11,8 +13,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Alan on 8/7/2018.
@@ -20,7 +27,7 @@ import android.widget.Toast;
 
 public class AddStudentDialog extends DialogFragment {
     public interface AddStudentListener {
-        void addNewStudent(String[] studentData);
+        void addNewStudent(String[] studentData, Uri pictureUrl);
     }
 
     private AddStudentListener mListener;
@@ -31,6 +38,11 @@ public class AddStudentDialog extends DialogFragment {
     private Spinner spinnerSection;
     private Button btnConfirm;
     private Button btnCancel;
+
+
+    private ImageView ivPicture;
+    private Uri mImageUri;
+
 
     private String name;
     private String phoneNumber;
@@ -60,6 +72,23 @@ public class AddStudentDialog extends DialogFragment {
         btnConfirm = view.findViewById(R.id.btn_confirm);
         btnCancel = view.findViewById(R.id.btn_cancel);
 
+
+        ivPicture = view.findViewById(R.id.iv_picture);
+//        Glide.with(this).load(R.drawable.default_profile).into(ivPicture);
+
+
+        ivPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // open file chooser
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, MainActivity.RC_PHOTO_PICKER_ADD);
+            }
+        });
+
+
         // Spinner set up
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.spinner_dropdown));
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -87,7 +116,7 @@ public class AddStudentDialog extends DialogFragment {
 //                    studentData[2] = email;
                     studentData[2] = section;
 
-                    mListener.addNewStudent(studentData);
+                    mListener.addNewStudent(studentData, mImageUri);
                     dismiss();
                 }
             }
@@ -104,6 +133,22 @@ public class AddStudentDialog extends DialogFragment {
         builder.setTitle(R.string.add_student);
 
         return builder.create();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MainActivity.RC_PHOTO_PICKER_ADD) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                mImageUri = data.getData();
+
+                Glide.with(this).load(mImageUri).fitCenter().into(ivPicture);
+                //resize
+                // or (same thing)
+//                 ivPicture.setImageURI(mImageUri);
+            }
+        }
     }
 }
 

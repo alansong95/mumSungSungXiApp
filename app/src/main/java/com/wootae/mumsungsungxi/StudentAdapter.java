@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Alan on 8/8/2018.
@@ -56,14 +60,20 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.name.setText(student.getName());
         holder.mCardView.setTag(student);
 
-        Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);
+//        Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);
+//        boolean temp = student == null ? true : false;
+//        String temp2 = student.getPictureUri();
+//        Log.d(TAG, "student is null: " + temp);
+//        Log.d(TAG, "student's picture uri: " + temp2);
 
-//        if (student.getProfileImageUrl().equals("")) {
-//            Glide.with(mContext).load(student.getThumbnail()).into(holder.thumbnail);
-//        } else {
-//            Picasso.with(mContext).load(student.getProfileImageUrl()).placeholder(R.drawable.profile)
+        if (student.getPictureUri() == null) {
+            Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);
+        } else {
+//            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
 //                    .fit().centerCrop().into(holder.thumbnail);
-//        }
+            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
+                    .fit().centerInside().into(holder.thumbnail);
+        }
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override

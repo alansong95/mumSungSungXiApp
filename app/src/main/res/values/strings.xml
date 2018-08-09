@@ -5,6 +5,8 @@
     <string name="delete">삭제</string>
     <string name="restore">복원</string>
 
+    <string name="select_picture">사진 선택</string>
+
     <!--alerts-->
     <string name="alert_custom_messages_set">메세지가 적용되었습니다.</string>
 

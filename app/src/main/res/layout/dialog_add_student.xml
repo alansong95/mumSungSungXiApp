@@ -11,6 +11,16 @@
     android:paddingTop="@dimen/material_design_padding"
     android:orientation="vertical">
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+    android:src="@drawable/default_profile_select"
+        android:id="@+id/iv_picture"/>
+
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
