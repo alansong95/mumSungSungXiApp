@@ -51,18 +51,18 @@
                 android:textSize="@dimen/album_title" />
 
 
-            <ImageView
-                android:id="@+id/overflow"
-                android:layout_alignRight="@id/thumbnail"
-                android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
-                android:layout_marginRight="@dimen/ic_album_overflow_margin_top"
-                android:layout_width="@dimen/ic_album_overflow_width"
-                android:layout_height="@dimen/ic_album_overflow_height"
-                android:layout_alignParentRight="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_dots"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                />
+            <!--<ImageView-->
+                <!--android:id="@+id/overflow"-->
+                <!--android:layout_alignRight="@id/thumbnail"-->
+                <!--android:layout_marginTop="@dimen/ic_album_overflow_margin_top"-->
+                <!--android:layout_marginRight="@dimen/ic_album_overflow_margin_top"-->
+                <!--android:layout_width="30"-->
+                <!--android:layout_height=""-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/ic_dots"-->
+                <!--android:background="?attr/selectableItemBackgroundBorderless"-->
+                <!--/>-->
 
 
 

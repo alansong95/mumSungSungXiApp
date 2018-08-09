@@ -485,12 +485,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    mStudentAdapterOne.notifyDataSetChanged();
-                    mStudentAdapterTwo.notifyDataSetChanged();
-                    mStudentAdapterThree.notifyDataSetChanged();
-                    mStudentAdapterFour.notifyDataSetChanged();
-                    mStudentAdapterFive.notifyDataSetChanged();
                     mViewPagerAdapter.notifyDataSetChanged();
                 }
 

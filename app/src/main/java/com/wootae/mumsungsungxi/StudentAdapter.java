@@ -87,12 +87,20 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             }
         });
 
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
+        holder.thumbnail.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View view) {
-                showPopupMenu(holder.overflow, (Student) holder.mCardView.getTag());
+            public boolean onLongClick(View view) {
+                showPopupMenu(holder.thumbnail, (Student) holder.mCardView.getTag());
+                return true;
             }
         });
+
+//        holder.overflow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showPopupMenu(holder.overflow, (Student) holder.mCardView.getTag());
+//            }
+//        });
 
 //                holder.bind(items[position]); // commented b4
     }
@@ -100,7 +108,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public class StudentViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public ImageView thumbnail;
-        public ImageView overflow;
+//        public ImageView overflow;
 
         public CardView mCardView;
 
@@ -108,7 +116,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             super(view);
 
             name  = view.findViewById(R.id.tv_name);
-            overflow = view.findViewById(R.id.overflow);
+//            overflow = view.findViewById(R.id.overflow);
             thumbnail = view.findViewById(R.id.thumbnail);
 
             mCardView = view.findViewById(R.id.card_view);
@@ -117,6 +125,14 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
                 @Override
                 public void onClick(View view) {
                     mListener.openMessageDialog((Student) mCardView.getTag());
+                }
+            });
+
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    showPopupMenu(view, (Student) mCardView.getTag());
+                    return true;
                 }
             });
         }
