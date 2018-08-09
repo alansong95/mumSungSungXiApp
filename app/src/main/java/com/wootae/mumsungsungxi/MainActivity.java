@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     ViewPagerAdapter mViewPagerAdapter;
 
     //
-    Student currentStudent;
+    ProgressBar mProgressBar;
 
     // AddStudentDialog Listener
     public void addNewStudent(String[] studentData, Uri pictureUri) {
@@ -139,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mProgressBar = findViewById(R.id.progress_bar);
 
         // Tablayout & Viewpager
         mViewPager = findViewById(R.id.viewpager);
@@ -203,7 +206,10 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         mStudentAdapterFour = new StudentAdapter(this, classFour);
         mStudentAdapterFive = new StudentAdapter(this, classFive);
 
+
+
         requestMessagePermission();
+        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
     }
 
     // MainActivity
@@ -285,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             final Student student = new Student(name, phoneNumber, section);
 
             StorageReference profilePictureRef = mProfilePictureStorageReference.child(student.getUid());
+            mProgressBar.setVisibility(ProgressBar.VISIBLE);
             profilePictureRef.putBytes(fileInBytes).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -296,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                     mStudentRef.setValue(student);
                     numOfStudents++;
+                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 }
             });
         }
@@ -303,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public static void deleteStudentFromDatabase(Student student) {
         mStudentsRef.child(student.getUid()).removeValue();
     }
-    public void editStudentOnDatabase(String name, String phoneNumber, String section, final String uid, Uri pictureUri) {
+    public void editStudentOnDatabase(final String name, final String phoneNumber, final String section, final String uid, Uri pictureUri) {
         if (pictureUri == null) {
             Student student = getStudent(uid);
             String oldSection = student.getSection();
@@ -362,83 +370,59 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             byte[] fileInBytes = baos.toByteArray();
 
             StorageReference profilePictureRef = mProfilePictureStorageReference.child(student.getUid());
+            mProgressBar.setVisibility(ProgressBar.VISIBLE);
             profilePictureRef.putBytes(fileInBytes).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
                     student.setPictureUri(downloadUri.toString());
                     Log.d(TAG, "TESTING***: " +  downloadUri);
-                }
-            }).addOnFailureListener(this, new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "TESTING***: failed");
-                    e.printStackTrace();
-                }
-            }).addOnPausedListener(this, new OnPausedListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUri = taskSnapshot.getDownloadUrl();
-                    Log.d(TAG, "TESTING***3: " +  downloadUri);
-                }
-            }).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                    Uri downloadUri = task.getResult().getDownloadUrl();
-                    Log.d(TAG, "TESTING***4: " +  downloadUri);
-                }
-            }).addOnProgressListener(this, new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    Uri downloadUri = taskSnapshot.getDownloadUrl();
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    Log.d(TAG, "uploaded: " + progress);
+                    String oldSection = student.getSection();
+
+                    student.setName(name);
+                    student.setPhoneNumber(phoneNumber);
+                    student.setSection(section);
+
+                    int index = students.indexOf(student);
+                    students.set(index, student);
+
+                    boolean temp = false;
+                    if (oldSection.equals(classNames[0])) {
+                        temp = classOne.remove(student);
+                    } else if (oldSection.equals(classNames[1])) {
+                        temp = classTwo.remove(student);
+                    } else if (oldSection.equals(classNames[2])) {
+                        temp = classThree.remove(student);
+                    } else if (oldSection.equals(classNames[3])) {
+                        temp = classFour.remove(student);
+                    } else if (oldSection.equals(classNames[4])) {
+                        temp = classFive.remove(student);
+                    } else {
+                        Log.d(TAG, "Wrong Section");
+                    }
+
+                    if (section.equals(classNames[0])) {
+                        classOne.add(student);
+                    } else if (section.equals(classNames[1])) {
+                        classTwo.add(student);
+                    } else if (section.equals(classNames[2])) {
+                        classThree.add(student);
+                    } else if (section.equals(classNames[3])) {
+                        classFour.add(student);
+                    } else if (section.equals(classNames[4])) {
+                        classFive.add(student);
+                    } else {
+                        Log.d(TAG, "Wrong Section");
+                    }
+
+                    DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
+                    mStudentRef.setValue(student);
+
+
+
+                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
                 }
             });
-
-//            Log.d(TAG, "TESTING***2: " +  downloadUri);
-
-            String oldSection = student.getSection();
-
-            student.setName(name);
-            student.setPhoneNumber(phoneNumber);
-            student.setSection(section);
-//            student.setPictureUri(downloadUri.toStrin
-
-            int index = students.indexOf(student);
-            students.set(index, student);
-
-            boolean temp = false;
-            if (oldSection.equals(classNames[0])) {
-                temp = classOne.remove(student);
-            } else if (oldSection.equals(classNames[1])) {
-                temp = classTwo.remove(student);
-            } else if (oldSection.equals(classNames[2])) {
-                temp = classThree.remove(student);
-            } else if (oldSection.equals(classNames[3])) {
-                temp = classFour.remove(student);
-            } else if (oldSection.equals(classNames[4])) {
-                temp = classFive.remove(student);
-            } else {
-                Log.d(TAG, "Wrong Section");
-            }
-
-            if (section.equals(classNames[0])) {
-                classOne.add(student);
-            } else if (section.equals(classNames[1])) {
-                classTwo.add(student);
-            } else if (section.equals(classNames[2])) {
-                classThree.add(student);
-            } else if (section.equals(classNames[3])) {
-                classFour.add(student);
-            } else if (section.equals(classNames[4])) {
-                classFive.add(student);
-            } else {
-                Log.d(TAG, "Wrong Section");
-            }
-
-            DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
-            mStudentRef.setValue(student);
         }
     }
 

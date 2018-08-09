@@ -167,6 +167,7 @@ public class EditStudentDialog extends DialogFragment {
                 mImageUri = data.getData();
 
                 Glide.with(this).load(mImageUri).fitCenter().into(ivPicture);
+                ivPicture.setRotation(90);
                 //resize
                 // or (same thing)
 //                 ivPicture.setImageURI(mImageUri);
