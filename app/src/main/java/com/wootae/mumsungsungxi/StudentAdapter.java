@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 
 import java.util.List;
 
@@ -66,14 +67,16 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 //        Log.d(TAG, "student is null: " + temp);
 //        Log.d(TAG, "student's picture uri: " + temp2);
 
-        if (student.getPictureUri() == null) {
+        if (student.getPictureUri().equals("")) {
             Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);
         } else {
 //            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
 //                    .fit().centerInside().into(holder.thumbnail);
 //            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
 //                    .into(holder.thumbnail);;
-            Glide.with(mContext).load(student.getPictureUri()).fitCenter().into(holder.thumbnail);
+
+//            Glide.with(mContext).load(student.getPictureUri()).fitCenter().into(holder.thumbnail);
+            Glide.with(mContext).load(student.getPictureUri()).signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).fitCenter().into(holder.thumbnail);
             holder.thumbnail.setRotation(90);
         }
 

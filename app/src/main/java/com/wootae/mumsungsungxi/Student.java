@@ -20,6 +20,16 @@ public class Student {
     private String pictureUri;
 
     public Student() {
+
+    }
+
+    public Student(String name, String phoneNumber, String section) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.section = section;
+        this.uid = UUID.randomUUID().toString();
+        this.pictureUri = "";
+//        numOfStudents++;
     }
 
     public Student(String name, String phoneNumber, String section, String pictureUri) {
@@ -90,7 +100,7 @@ public class Student {
     // Debug
     @Override
     public String toString() {
-        return "UID: " + uid + "Name: " + name + ", " + "Phone Number: " + phoneNumber + ", " + "Section: " + section;
+        return "UID: " + uid + "Name: " + name + ", " + "Phone Number: " + phoneNumber + ", " + "Section: " + section + "pictureUrl: " + pictureUri;
     }
 
 }

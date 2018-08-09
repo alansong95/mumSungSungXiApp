@@ -76,7 +76,6 @@ public class AddStudentDialog extends DialogFragment {
         ivPicture = view.findViewById(R.id.iv_picture);
 //        Glide.with(this).load(R.drawable.default_profile).into(ivPicture);
 
-
         ivPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
