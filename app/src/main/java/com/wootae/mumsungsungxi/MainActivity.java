@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -33,6 +35,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -191,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         mStudentAdapterFive = new StudentAdapter(this, classFive);
 
         requestMessagePermission();
-
     }
 
     // MainActivity
@@ -250,16 +253,28 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
 
     // Hakwon methods
-    public void addStudentToDatabase(final String name, final String phoneNumber, final String section, Uri pictureUrl) {
-        if (pictureUrl == null) {
+    public void addStudentToDatabase(final String name, final String phoneNumber, final String section, Uri pictureUri) {
+        if (pictureUri == null) {
             Student student = new Student(name, phoneNumber, section, "");
             DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
 
             mStudentRef.setValue(student);
             numOfStudents++;
         } else {
-            StorageReference profilePictureRef = mProfilePictureStorageReference.child(pictureUrl.getLastPathSegment());
-            profilePictureRef.putFile(pictureUrl).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            // profile picture included
+            // compress the image
+            Bitmap bmp = null;
+            try {
+                bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), pictureUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+            byte[] fileInBytes = baos.toByteArray();
+
+            StorageReference profilePictureRef = mProfilePictureStorageReference.child(pictureUri.getLastPathSegment());
+            profilePictureRef.putBytes(fileInBytes).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Uri downloadUri = taskSnapshot.getDownloadUrl();
@@ -332,8 +347,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public static void sendMessage(Student student, studentStatus status) {
         Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
     }
-
-
 
     // Firebase real-time database
     private void attachDatabaseReadListener() {

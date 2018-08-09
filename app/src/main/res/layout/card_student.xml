@@ -22,12 +22,12 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/album_cover_height"
-                android:adjustViewBounds="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
+                android:adjustViewBounds="true"
 
                 android:paddingTop="5dp"
 

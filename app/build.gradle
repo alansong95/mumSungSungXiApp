@@ -33,9 +33,6 @@ dependencies {
 
     implementation 'com.firebaseui:firebase-ui-auth:2.3.0'
 
-    // Image
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-
     // RecyclerView
     compile 'com.android.support:recyclerview-v7:26.0.0'
 

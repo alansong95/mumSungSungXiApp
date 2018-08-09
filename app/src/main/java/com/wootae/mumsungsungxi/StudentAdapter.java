@@ -1,6 +1,7 @@
 package com.wootae.mumsungsungxi;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -70,9 +70,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);
         } else {
 //            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
-//                    .fit().centerCrop().into(holder.thumbnail);
-            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
-                    .fit().centerInside().into(holder.thumbnail);
+//                    .fit().centerInside().into(holder.thumbnail);
+//            Picasso.with(mContext).load(student.getPictureUri()).placeholder(R.drawable.default_profile)
+//                    .into(holder.thumbnail);;
+            Glide.with(mContext).load(student.getPictureUri()).fitCenter().into(holder.thumbnail);
+            holder.thumbnail.setRotation(90);
         }
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
