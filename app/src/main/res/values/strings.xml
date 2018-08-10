@@ -27,6 +27,7 @@
     <string name="logout">로그아웃</string>
     <string name="edit_messages">메세지 편집</string>
     <string name="announcement">공지사항</string>
+    <string name="analysis">출결현황</string>
 
     <!--addstudentdialog-->
     <string name="name">이름</string>

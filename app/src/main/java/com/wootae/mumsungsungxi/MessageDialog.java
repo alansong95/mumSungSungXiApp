@@ -42,7 +42,7 @@ public class MessageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.arrived(uid);
-                MainActivity.sendMessage(student, StudentStatus.ARRIVED);
+                MainActivity.studentAction(student, StudentStatus.ARRIVED);
                 dismiss();
             }
         });
@@ -51,7 +51,7 @@ public class MessageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.left(uid);
-                MainActivity.sendMessage(student, StudentStatus.DEPARTED);
+                MainActivity.studentAction(student, StudentStatus.DEPARTED);
                 dismiss();
             }
         });
@@ -60,7 +60,7 @@ public class MessageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.absent(uid);
-                MainActivity.sendMessage(student, StudentStatus.ABSENT);
+                MainActivity.studentAction(student, StudentStatus.ABSENT);
                 dismiss();
             }
         });

@@ -22,16 +22,16 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingBottom="@dimen/material_design_padding"
-        android:paddingLeft="@dimen/material_design_padding"
-        android:paddingRight="@dimen/material_design_padding"
-        android:paddingTop="@dimen/material_design_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tablayout"
         app:layout_constraintVertical_bias="1.0" />
+    <!--android:paddingBottom="@dimen/material_design_padding"-->
+    <!--android:paddingLeft="@dimen/material_design_padding"-->
+    <!--android:paddingRight="@dimen/material_design_padding"-->
+    <!--android:paddingTop="@dimen/material_design_padding"-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

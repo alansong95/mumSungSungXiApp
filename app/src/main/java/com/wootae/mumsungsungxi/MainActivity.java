@@ -138,6 +138,10 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         for (Student student : recipients) {
             Log.d(TAG, student.toString());
         }
+
+        for (Student student : recipients) {
+            sendMessage(student, message);
+        }
     }
 
     @Override
@@ -268,6 +272,10 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             case R.id.announcement:
                 AnnouncementDialog announcementDialog = new AnnouncementDialog();
                 announcementDialog.show(getSupportFragmentManager(), "");
+                return true;
+            case R.id.analysis:
+                MainActivity.this.startActivity(new Intent(MainActivity.this, AnalysisActivity.class));
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -442,9 +450,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         return null;
     }
 
-    public static void sendMessage(Student student, StudentStatus status) {
-        Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
-    }
+
 
     // Firebase real-time database
     private void attachDatabaseReadListener() {
@@ -639,17 +645,40 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         }
     }
 
-    public void sendMessage(String message, Student student) {
-        // sending sms
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(student.getPhoneNumber(), null, message, null, null);
-            Toast.makeText(this, "Message Sent",
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception ex) {
-            Toast.makeText(this,ex.getMessage().toString(),
-                    Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
+    public static void studentAction(Student student, StudentStatus status) {
+        Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
+
+        switch (status) {
+            case ARRIVED:
+//                sendMessage(student, 등원메세지);
+                // update for analysis
+                break;
+            case DEPARTED:
+//                sendMessage(student, 하원);
+                // update for analysis
+                break;
+            case ABSENT:
+                // update for analysis
+                break;
         }
     }
+
+    // place holder for now
+    public void sendMessage(Student student, String message) {
+        Log.d(TAG, message + " sent to: " + student.getName() + " " + student.getPhoneNumber());
+    }
+
+//    public void sendMessage(Student student, String message) {
+//        // sending sms
+//        try {
+//            SmsManager smsManager = SmsManager.getDefault();
+//            smsManager.sendTextMessage(student.getPhoneNumber(), null, message, null, null);
+//            Toast.makeText(this, "Message Sent",
+//                    Toast.LENGTH_LONG).show();
+//        } catch (Exception ex) {
+//            Toast.makeText(this,ex.getMessage().toString(),
+//                    Toast.LENGTH_LONG).show();
+//            ex.printStackTrace();
+//        }
+//    }
 }

@@ -4,6 +4,12 @@
     tools:context="com.song.alan.mumxiattendance.MainActivity">
 
     <item
+        android:id="@+id/analysis"
+        android:orderInCategory="96"
+        android:title="@string/analysis"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/announcement"
         android:orderInCategory="97"
         android:title="@string/announcement"
