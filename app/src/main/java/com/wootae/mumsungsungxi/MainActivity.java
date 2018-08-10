@@ -1,7 +1,5 @@
 package com.wootae.mumsungsungxi;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,10 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -36,8 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnPausedListener;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -121,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     }
     public void openMessageDialog(Student student) {
         Toast.makeText(this, "Opening Message Dialog for: " + student.getName(), Toast.LENGTH_SHORT).show();
-        messageDialog editStudentDialog = new messageDialog();
+        MessageDialog editStudentDialog = new MessageDialog();
 
         Bundle args = new Bundle();
         args.putString("uid", student.getUid());
@@ -138,8 +131,13 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     // Announcement Listener
     @Override
-    public void sendAnnouncement(String[] recipients, String message) {
-
+    public void sendAnnouncement(List<Student> recipients, String message) {
+        Log.d(TAG, "Sending Announcement");
+        Log.d(TAG, "Message: " + message);
+        Log.d(TAG, "To: ");
+        for (Student student : recipients) {
+            Log.d(TAG, student.toString());
+        }
     }
 
     @Override
@@ -444,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         return null;
     }
 
-    public static void sendMessage(Student student, studentStatus status) {
+    public static void sendMessage(Student student, StudentStatus status) {
         Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
     }
 

@@ -26,7 +26,7 @@ import java.util.List;
 
 public class AnnouncementDialog extends DialogFragment {
     public interface AnnouncementListener {
-        void sendAnnouncement(String[] recipients, String message);
+        void sendAnnouncement(List<Student> recipients, String message);
     }
 
     private AnnouncementListener mListener;
@@ -39,7 +39,7 @@ public class AnnouncementDialog extends DialogFragment {
 
     private String recipient;
     private String message;
-    private String[] recipients;
+    private List<Student> recipients;
 
     private String[] spinnerToDropdown;
 
@@ -49,17 +49,15 @@ public class AnnouncementDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_announcement, null);
 
+        recipients = new ArrayList<>();
+
         spinnerTo = view.findViewById(R.id.spinner_to);
         etAnnouncement = view.findViewById(R.id.et_announcement);
         btnConfirm = view.findViewById(R.id.btn_confirm);
         btnCancel = view.findViewById(R.id.btn_cancel);
         spinnerMultiTo = view.findViewById(R.id.spinner_multi_to);
 
-        List<String> studentNames = new ArrayList<>();
-        for (Student student : MainActivity.students) {
-            studentNames.add(student.getName());
-        }
-        spinnerMultiTo.setItems(studentNames);
+        spinnerMultiTo.setItems(MainActivity.students);
 
         spinnerToDropdown = getResources().getStringArray(R.array.spinner_to_dropdown);
 
@@ -102,25 +100,24 @@ public class AnnouncementDialog extends DialogFragment {
                     Toast.makeText(getActivity().getApplicationContext(), R.string.select_recipient, Toast.LENGTH_SHORT).show();
                 } else {
                     if (recipient.equals(spinnerToDropdown[1])) { //전체
-
+                        mListener.sendAnnouncement(MainActivity.students, message);
                     } else if (recipient.equals(spinnerToDropdown[2])) { // 1교시
-
+                        mListener.sendAnnouncement(MainActivity.classOne, message);
                     } else if (recipient.equals(spinnerToDropdown[3])) { // 2교시
-
+                        mListener.sendAnnouncement(MainActivity.classTwo, message);
                     } else if (recipient.equals(spinnerToDropdown[4])) { // 3교시
-
+                        mListener.sendAnnouncement(MainActivity.classThree, message);
                     } else if (recipient.equals(spinnerToDropdown[5])) { // 4교시
-
+                        mListener.sendAnnouncement(MainActivity.classFour, message);
                     } else if (recipient.equals(spinnerToDropdown[6])) { // 5교시
-
+                        mListener.sendAnnouncement(MainActivity.classFive, message);
                     } else if (recipient.equals(spinnerToDropdown[7])) { // 개별선택
-                        List<String> temp = spinnerMultiTo.getSelectedStrings();
-                        for (String s : temp) {
-                            Log.d("ANNOUNCEMENT_TESTING", s);
+                        List<Integer> indicies = spinnerMultiTo.getSelectedIndicies();
+                        for (int i : indicies) {
+                            recipients.add(MainActivity.students.get(i));
                         }
+                        mListener.sendAnnouncement(recipients, message);
                     }
-
-                    mListener.sendAnnouncement(recipients, message);
                     dismiss();
                 }
             }

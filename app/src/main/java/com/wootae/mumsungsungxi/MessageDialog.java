@@ -1,7 +1,6 @@
 package com.wootae.mumsungsungxi;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -14,7 +13,7 @@ import android.widget.Button;
  */
 
 
-public class messageDialog extends AppCompatDialogFragment {
+public class MessageDialog extends AppCompatDialogFragment {
 //    private SMSDialogListener listener;
 
     Button button1;
@@ -43,7 +42,7 @@ public class messageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.arrived(uid);
-                MainActivity.sendMessage(student, studentStatus.ARRIVED);
+                MainActivity.sendMessage(student, StudentStatus.ARRIVED);
                 dismiss();
             }
         });
@@ -52,7 +51,7 @@ public class messageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.left(uid);
-                MainActivity.sendMessage(student, studentStatus.DEPARTED);
+                MainActivity.sendMessage(student, StudentStatus.DEPARTED);
                 dismiss();
             }
         });
@@ -61,7 +60,7 @@ public class messageDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View view) {
 //                listener.absent(uid);
-                MainActivity.sendMessage(student, studentStatus.ABSENT);
+                MainActivity.sendMessage(student, StudentStatus.ABSENT);
                 dismiss();
             }
         });

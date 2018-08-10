@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultiSelectionSpinner extends Spinner implements
+public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener
 {
     String[] _items = null;
@@ -31,8 +31,7 @@ public class MultiSelectionSpinner extends Spinner implements
     public MultiSelectionSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        simple_adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item);
+        simple_adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
         super.setAdapter(simple_adapter);
     }
 
@@ -80,8 +79,16 @@ public class MultiSelectionSpinner extends Spinner implements
         Arrays.fill(mSelection, false);
     }
 
-    public void setItems(List<String> items) {
-        _items = items.toArray(new String[items.size()]);
+//    public void setItems(List<String> items) {
+    public void setItems(List<Student> students) {
+        _items = new String[students.size()];
+        int i = 0;
+        for (Student student : students) {
+            _items[i] = student.getName() + " " + student.getSection() + " " + student.getPhoneNumber();
+            i++;
+        }
+
+//        _items = items.toArray(new String[items.size()]);
         mSelection = new boolean[_items.length];
         simple_adapter.clear();
         simple_adapter.add(_items[0]);
