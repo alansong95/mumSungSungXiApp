@@ -8,7 +8,13 @@
     tools:context="com.wootae.mumsungsungxi.MainActivity"
     tools:showIn="@layout/activity_main">
     <!--android:background="@color/viewBg"-->
-
+    <!--<ProgressBar-->
+        <!--android:id="@+id/progress_bar2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--/>-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"

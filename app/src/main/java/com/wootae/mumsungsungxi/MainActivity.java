@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener {
+public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener, AnnouncementDialog.AnnouncementListener {
     // Debug
     private static final String TAG = "MainActivity_Debug";
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
     // Hakwon
     private static int numOfStudents = 0; // decide this or static variable in Student class
-    private static List<Student> students;
+    public static List<Student> students;
     public static String arrivalMessage;
     public static String departureMessage;
 
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     ViewPagerAdapter mViewPagerAdapter;
 
     //
-    ProgressBar mProgressBar;
+    public static ProgressBar mProgressBar;
 
     // AddStudentDialog Listener
     public void addNewStudent(String[] studentData, Uri pictureUri) {
@@ -134,6 +134,12 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     // EditStudentDialog Listener
     public void editStudent(String[] studentData, Uri pictureUri) {
         editStudentOnDatabase(studentData[0], studentData[1], studentData[2], studentData[3], pictureUri);
+    }
+
+    // Announcement Listener
+    @Override
+    public void sendAnnouncement(String[] recipients, String message) {
+
     }
 
     @Override
@@ -209,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
 
         requestMessagePermission();
-        mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+        mProgressBar.setVisibility(ProgressBar.GONE);
     }
 
     // MainActivity
@@ -261,6 +267,9 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             case R.id.test:
                 printStatus();
                 return true;
+            case R.id.announcement:
+                AnnouncementDialog announcementDialog = new AnnouncementDialog();
+                announcementDialog.show(getSupportFragmentManager(), "");
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -303,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                     mStudentRef.setValue(student);
                     numOfStudents++;
-                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+                    mProgressBar.setVisibility(ProgressBar.GONE);
                 }
             });
         }
@@ -420,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
 
 
-                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+                    mProgressBar.setVisibility(ProgressBar.GONE);
                 }
             });
         }

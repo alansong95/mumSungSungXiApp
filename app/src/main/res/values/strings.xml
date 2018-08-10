@@ -26,6 +26,7 @@
     <!--menu-->
     <string name="logout">로그아웃</string>
     <string name="edit_messages">메세지 편집</string>
+    <string name="announcement">공지사항</string>
 
     <!--addstudentdialog-->
     <string name="name">이름</string>
@@ -66,5 +67,21 @@
     <!--<string name="class3">3교시</string>-->
     <!--<string name="class4">4교시</string>-->
     <!--<string name="class5">5교시</string>-->
+
+    <!--announcement-->
+    <string name="howto_announcement">내용</string>
+    <string name="enter_message">메세지를 입력해 주세요.</string>
+    <string name="select_recipient">수신인을 선택해 주세요.</string>
+    <string-array name="spinner_to_dropdown">
+        <item>수령인 선택</item>
+        <item>전체</item>
+        <item>1교시</item>
+        <item>2교시</item>
+        <item>3교시</item>
+        <item>4교시</item>
+        <item>5교시</item>
+        <item>개별 선택</item>
+    </string-array>
+
 
 </resources>
