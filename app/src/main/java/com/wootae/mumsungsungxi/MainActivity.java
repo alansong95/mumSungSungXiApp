@@ -36,9 +36,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener, AnnouncementDialog.AnnouncementListener {
     // Debug
@@ -648,17 +651,37 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public static void studentAction(Student student, StudentStatus status) {
         Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
 
+        DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
         switch (status) {
             case ARRIVED:
+                System.out.println(date);
+
+                student.setStatus(StudentStatus.ARRIVED);
+                student.setUpdatedDate(date);
+                mStudentRef.setValue(student);
+
+
 //                sendMessage(student, 등원메세지);
                 // update for analysis
                 break;
             case DEPARTED:
 //                sendMessage(student, 하원);
                 // update for analysis
+
+                student.setStatus(StudentStatus.DEPARTED);
+                student.setUpdatedDate(date);
+                mStudentRef.setValue(student);
+
                 break;
             case ABSENT:
                 // update for analysis
+
+                student.setStatus(StudentStatus.ABSENT);
+                student.setUpdatedDate(date);
+                mStudentRef.setValue(student);
+
                 break;
         }
     }

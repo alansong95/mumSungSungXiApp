@@ -1,6 +1,7 @@
 package com.wootae.mumsungsungxi;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
@@ -17,7 +18,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 
@@ -66,6 +70,19 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 //        String temp2 = student.getPictureUri();
 //        Log.d(TAG, "student is null: " + temp);
 //        Log.d(TAG, "student's picture uri: " + temp2);
+
+        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        if (student.getUpdatedDate().equals(date)) {
+            if (student.getStatus() == StudentStatus.ARRIVED) {
+                holder.mCardView.setBackgroundColor(Color.parseColor("#008000"));
+            } else if (student.getStatus() == StudentStatus.DEPARTED) {
+                holder.mCardView.setBackgroundColor(Color.parseColor("#0000FF"));
+            } else if (student.getStatus() == StudentStatus.ABSENT) {
+                holder.mCardView.setBackgroundColor(Color.parseColor("#FF0000"));
+            }
+        } else {
+
+        }
 
         if (student.getPictureUri().equals("")) {
             Glide.with(mContext).load(R.drawable.default_profile).into(holder.thumbnail);

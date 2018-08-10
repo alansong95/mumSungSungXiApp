@@ -18,6 +18,8 @@ public class Student {
     private String section;
 //    private String mProfileImageUrl;
     private String pictureUri;
+    private String updatedDate;
+    private StudentStatus status;
 
     public Student() {
 
@@ -29,6 +31,8 @@ public class Student {
         this.section = section;
         this.uid = UUID.randomUUID().toString();
         this.pictureUri = "";
+        this.updatedDate = "";
+        this.status = StudentStatus.NONE;
 //        numOfStudents++;
     }
 
@@ -38,6 +42,8 @@ public class Student {
         this.section = section;
         this.uid = UUID.randomUUID().toString();
         this.pictureUri = pictureUri;
+        this.updatedDate = "";
+        this.status = StudentStatus.NONE;
 //        numOfStudents++;
     }
 
@@ -54,6 +60,8 @@ public class Student {
     public void setPictureUri(String pictureUri) {
         this.pictureUri = pictureUri;
     }
+    public void setUpdatedDate(String updatedDate) { this.updatedDate = updatedDate; }
+    public void setStatus(StudentStatus status) { this.status = status; }
 
     public String getName() {
         return name;
@@ -68,6 +76,8 @@ public class Student {
         return uid;
     }
     public String getPictureUri() { return pictureUri; };
+    public String getUpdatedDate() { return updatedDate; }
+    public StudentStatus getStatus() { return status; }
 
 //    public static int getNumOfStudents() {
 //        return numOfStudents;
@@ -100,7 +110,7 @@ public class Student {
     // Debug
     @Override
     public String toString() {
-        return "UID: " + uid + "Name: " + name + ", " + "Phone Number: " + phoneNumber + ", " + "Section: " + section + "pictureUrl: " + pictureUri;
+        return "UID: " + uid + "Name: " + name + ", " + "Phone Number: " + phoneNumber + ", " + "Section: " + section + "pictureUrl: " + pictureUri +  "updated date: " + updatedDate;
     }
 
 }
