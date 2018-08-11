@@ -1,6 +1,8 @@
 package com.wootae.mumsungsungxi;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.UUID;
 
@@ -112,5 +114,4 @@ public class Student {
     public String toString() {
         return "UID: " + uid + "Name: " + name + ", " + "Phone Number: " + phoneNumber + ", " + "Section: " + section + "pictureUrl: " + pictureUri +  "updated date: " + updatedDate;
     }
-
 }

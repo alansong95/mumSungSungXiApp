@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     private static final DatabaseReference mStudentsRef = mRootRef.child("students");
     public static DatabaseReference mCustomMessagesRef = mRootRef.child("customMessages");
+    private static DatabaseReference mAttendanceRef = mRootRef.child("attendance");
 
     // Firebase storage
     public static FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
@@ -277,6 +279,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 announcementDialog.show(getSupportFragmentManager(), "");
                 return true;
             case R.id.analysis:
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayListExtra();
                 MainActivity.this.startActivity(new Intent(MainActivity.this, AnalysisActivity.class));
                 return true;
             default:
@@ -583,6 +587,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         }
         if (mCustomMessagesEventListener != null) {
             mCustomMessagesRef.removeEventListener(mCustomMessagesEventListener);
+            mCustomMessagesEventListener = null;
         }
     }
 
@@ -654,6 +659,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
+        DatabaseReference mStudentAttendanceRef = mAttendanceRef.child(student.getName()).child(date);
+
         switch (status) {
             case ARRIVED:
                 System.out.println(date);
@@ -661,7 +668,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 student.setStatus(StudentStatus.ARRIVED);
                 student.setUpdatedDate(date);
                 mStudentRef.setValue(student);
-
+                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
 
 //                sendMessage(student, 등원메세지);
                 // update for analysis
@@ -673,6 +680,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 student.setStatus(StudentStatus.DEPARTED);
                 student.setUpdatedDate(date);
                 mStudentRef.setValue(student);
+                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
 
                 break;
             case ABSENT:
@@ -681,6 +689,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 student.setStatus(StudentStatus.ABSENT);
                 student.setUpdatedDate(date);
                 mStudentRef.setValue(student);
+                mStudentAttendanceRef.setValue(StudentStatus.ABSENT);
 
                 break;
         }

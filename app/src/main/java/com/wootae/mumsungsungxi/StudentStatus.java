@@ -5,5 +5,5 @@ package com.wootae.mumsungsungxi;
  */
 
 public enum StudentStatus {
-    NONE, ARRIVED, DEPARTED, ABSENT
+    NONE, ARRIVED, DEPARTED, ABSENT, ATTENDED
 }
