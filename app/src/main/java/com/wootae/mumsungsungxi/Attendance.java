@@ -1,5 +1,6 @@
 package com.wootae.mumsungsungxi;
 
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ public class Attendance {
         this.name = name;
 
         thisWeekStatus = new StudentStatus[6];
+        setThisWeekStatus(mon);
     }
 
     public void add(String date, StudentStatus status) {
@@ -43,9 +45,17 @@ public class Attendance {
         String monStr = mon.format(DateTimeFormatter.ofPattern("yyyy--MM-dd"));
 
         thisWeekStatus[0] = hashMap.get(monStr);
-
-
+        thisWeekStatus[1] = hashMap.get(mon.with(DayOfWeek.TUESDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        thisWeekStatus[2] = hashMap.get(mon.with(DayOfWeek.WEDNESDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        thisWeekStatus[3] = hashMap.get(mon.with(DayOfWeek.THURSDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        thisWeekStatus[4] = hashMap.get(mon.with(DayOfWeek.FRIDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+//        thisWeekStatus[5] = hashMap.get(mon.with(DayOfWeek.SATURDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
     }
+
+    public StudentStatus[] getThisWeekStatus() {
+        return thisWeekStatus;
+    }
+
 
 
 }

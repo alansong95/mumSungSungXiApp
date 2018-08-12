@@ -3,6 +3,7 @@ package com.wootae.mumsungsungxi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,24 +11,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.StorageReference;
 
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class AnalysisActivity extends AppCompatActivity {
@@ -47,7 +42,7 @@ public class AnalysisActivity extends AppCompatActivity {
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     private static DatabaseReference mAttendanceRef = mRootRef.child("attendance");
 
-    private List<Attendance> attendancies;
+    private List<Attendance> attendances;
 
     LocalDateTime today;
     LocalDateTime[] thisWeek;
@@ -58,17 +53,9 @@ public class AnalysisActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);
 
-        mRecyclerView = findViewById(R.id.recylcer_view_analysis);
-
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
 //        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new StudentListAdapter(this, MainActivity.students);
-        mRecyclerView.setAdapter(mAdapter);
 
         mon = findViewById(R.id.analysis_mon);
         tues = findViewById(R.id.analysis_tues);
@@ -95,20 +82,20 @@ public class AnalysisActivity extends AppCompatActivity {
         thisWeekStr[4] = thisWeek[4].format(DateTimeFormatter.ofPattern("M/d"));
         thisWeekStr[5] = thisWeek[5].format(DateTimeFormatter.ofPattern("M/d"));
 
-        mon.setText("월 " + thisWeekStr[0]); 
+        mon.setText("월 " + thisWeekStr[0]);
         tues.setText("화 " + thisWeekStr[1]);
         wens.setText("수 " + thisWeekStr[2]);
         thurs.setText("목 " + thisWeekStr[3]);
         fri.setText("금 " + thisWeekStr[4]);
         sat.setText("토 " + thisWeekStr[5]);
 
-        attendancies = new ArrayList<>();
+        attendances = new ArrayList<>();
 
         Button btnDebug = findViewById(R.id.btn_debug);
         btnDebug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (Attendance attendance : attendancies) {
+                for (Attendance attendance : attendances) {
                     Log.d("TESTING126", attendance.getName() + "'s map");
                     for (Map.Entry<String, StudentStatus> entry : attendance.getMap().entrySet()) {
                         Log.d("TESTING126", "key: " + entry.getKey() + "value: " + entry.getValue());
@@ -116,6 +103,16 @@ public class AnalysisActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mRecyclerView = findViewById(R.id.recylcer_view_analysis);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mAdapter = new StudentListAdapter(this, attendances);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+//        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
 
     }
 
@@ -148,9 +145,9 @@ public class AnalysisActivity extends AppCompatActivity {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.d("TESTING125", "key: " + dataSnapshot.getKey() + "value: " + dataSnapshot.getValue());
                     Attendance attendance = new Attendance(dataSnapshot.getKey(), (HashMap<String, StudentStatus>) dataSnapshot.getValue(), thisWeek[0]);
-                    attendancies.add(attendance);
+                    attendances.add(attendance);
 
-
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
