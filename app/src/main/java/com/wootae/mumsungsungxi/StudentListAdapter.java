@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         TextView fri;
         TextView sat;
 
+        LinearLayout row1;
+
+        boolean toggle;
+
         public StudentListViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name_analysis);
@@ -46,11 +51,22 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             thurs = view.findViewById(R.id.analysis_thurs_each);
             fri = view.findViewById(R.id.analysis_fri_each);
             sat = view.findViewById(R.id.analysis_sat_each);
+            row1 = view.findViewById(R.id.row1);
+
+            row1.setVisibility(View.GONE);
+            toggle = true;
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(mContext, name.getText().toString(), Toast.LENGTH_SHORT).show();
+                    if (toggle == true) {
+                        row1.setVisibility(View.VISIBLE);
+                        toggle = false;
+                    } else {
+                        row1.setVisibility(View.GONE);
+                        toggle = true;
+                    }
                 }
             });
         }
