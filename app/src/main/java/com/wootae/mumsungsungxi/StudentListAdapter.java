@@ -85,11 +85,16 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 }
             });
 
-            getThisMonthStatus();
+            getLastMonthStatus((Attendance) mCardView.getTag());
+            getThisMonthStatus((Attendance) mCardView.getTag());
         }
     }
 
-    private void getThisMonthStatus() {
+    private void getLastMonthStatus(Attendance attendance) {
+
+    }
+
+    private void getThisMonthStatus(Attendance attendance) {
 
     }
 

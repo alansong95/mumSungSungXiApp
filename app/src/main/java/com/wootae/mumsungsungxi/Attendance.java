@@ -18,10 +18,49 @@ public class Attendance {
     String name;
     String[] thisWeekStatus;
     String[] thisMonthStatus;
+    String[] lastMonthStatus;
 
     static LocalDate today = LocalDate.now();
     static LocalDate firstDay = today.withDayOfMonth(1);
     static LocalDate lastDay = today.with(lastDayOfMonth());
+
+    static LocalDate lastMonthFirstDay = today.minusMonths(1).withDayOfMonth(1);
+    static LocalDate lastMonthLastDay = lastMonthFirstDay.with(lastDayOfMonth());
+
+    static LocalDate[] lastMonthDates = {
+        lastMonthFirstDay,
+            lastMonthFirstDay.plusDays(1),
+            lastMonthFirstDay.plusDays(2),
+            lastMonthFirstDay.plusDays(3),
+            lastMonthFirstDay.plusDays(4),
+            lastMonthFirstDay.plusDays(5),
+            lastMonthFirstDay.plusDays(6),
+            lastMonthFirstDay.plusDays(7),
+            lastMonthFirstDay.plusDays(8),
+            lastMonthFirstDay.plusDays(9),
+            lastMonthFirstDay.plusDays(10),
+            lastMonthFirstDay.plusDays(11),
+            lastMonthFirstDay.plusDays(12),
+            lastMonthFirstDay.plusDays(13),
+            lastMonthFirstDay.plusDays(14),
+            lastMonthFirstDay.plusDays(15),
+            lastMonthFirstDay.plusDays(16),
+            lastMonthFirstDay.plusDays(17),
+            lastMonthFirstDay.plusDays(18),
+            lastMonthFirstDay.plusDays(19),
+            lastMonthFirstDay.plusDays(20),
+            lastMonthFirstDay.plusDays(21),
+            lastMonthFirstDay.plusDays(22),
+            lastMonthFirstDay.plusDays(23),
+            lastMonthFirstDay.plusDays(24),
+            lastMonthFirstDay.plusDays(25),
+            lastMonthFirstDay.plusDays(26),
+            lastMonthFirstDay.plusDays(27),
+            lastMonthFirstDay.plusDays(28),
+            lastMonthFirstDay.plusDays(29),
+            lastMonthFirstDay.plusDays(30),
+            lastMonthFirstDay.plusDays(31),
+    };
 
     static LocalDate[] thisMonthDates = {
         firstDay,
@@ -78,6 +117,15 @@ public class Attendance {
         for (String s : thisMonthStatus) {
             Log.d("TESTING128", "status: " + s);
         }
+
+        lastMonthStatus = new String[lastMonthLastDay.getDayOfMonth()];
+        setLastMonthStatus();
+
+        Log.d("TESTING130", "Last Month");
+        for (String s : lastMonthStatus) {
+            Log.d("TESITNG130", "Status: " + s);
+        }
+
     }
 
     public void add(String date, String status) {
@@ -119,8 +167,20 @@ public class Attendance {
         for (int i = 0; i < lastDay.getDayOfMonth(); i++) {
             thisMonthStatus[i] = hashMap.get(firstDay.plusDays(i).toString());
         }
+    }
 
+    public String[] getThisMonthStatus() {
+        return thisMonthStatus;
+    }
 
+    public void setLastMonthStatus() {
+        for (int i = 0; i < lastMonthLastDay.getDayOfMonth(); i++) {
+            lastMonthStatus[i] = hashMap.get(lastMonthFirstDay.plusDays(i).toString());
+        }
+    }
+
+    public String[] getLastMonthStatus() {
+        return thisMonthStatus;
     }
 
 
