@@ -21,7 +21,7 @@ public class Student {
 //    private String mProfileImageUrl;
     private String pictureUri;
     private String updatedDate;
-    private StudentStatus status;
+    private String status;
 
     public Student() {
 
@@ -63,7 +63,7 @@ public class Student {
         this.pictureUri = pictureUri;
     }
     public void setUpdatedDate(String updatedDate) { this.updatedDate = updatedDate; }
-    public void setStatus(StudentStatus status) { this.status = status; }
+    public void setStatus(String status) { this.status = status; }
 
     public String getName() {
         return name;
@@ -79,7 +79,7 @@ public class Student {
     }
     public String getPictureUri() { return pictureUri; };
     public String getUpdatedDate() { return updatedDate; }
-    public StudentStatus getStatus() { return status; }
+    public String getStatus() { return status; }
 
 //    public static int getNumOfStudents() {
 //        return numOfStudents;

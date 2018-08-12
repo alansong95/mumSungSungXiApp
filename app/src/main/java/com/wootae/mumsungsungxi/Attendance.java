@@ -1,5 +1,7 @@
 package com.wootae.mumsungsungxi;
 
+import android.util.Log;
+
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,30 +12,30 @@ import java.util.HashMap;
  */
 
 public class Attendance {
-    HashMap<String, StudentStatus> hashMap;
+    HashMap<String, String> hashMap;
     String name;
-    StudentStatus[] thisWeekStatus;
+    String[] thisWeekStatus;
 
-    public Attendance(String name, HashMap<String, StudentStatus> map) {
+    public Attendance(String name, HashMap<String, String> map) {
         hashMap = map;
         this.name = name;
 
-        thisWeekStatus = new StudentStatus[6];
+        thisWeekStatus = new String[6];
     }
 
-    public Attendance(String name, HashMap<String, StudentStatus> map, LocalDateTime mon) {
+    public Attendance(String name, HashMap<String, String> map, LocalDateTime mon) {
         hashMap = map;
         this.name = name;
 
-        thisWeekStatus = new StudentStatus[6];
+        thisWeekStatus = new String[6];
         setThisWeekStatus(mon);
     }
 
-    public void add(String date, StudentStatus status) {
+    public void add(String date, String status) {
         hashMap.put(date, status);
     }
 
-    public HashMap<String, StudentStatus> getMap() {
+    public HashMap<String, String> getMap() {
         return hashMap;
     }
 
@@ -49,10 +51,10 @@ public class Attendance {
         thisWeekStatus[2] = hashMap.get(mon.with(DayOfWeek.WEDNESDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
         thisWeekStatus[3] = hashMap.get(mon.with(DayOfWeek.THURSDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
         thisWeekStatus[4] = hashMap.get(mon.with(DayOfWeek.FRIDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
-//        thisWeekStatus[5] = hashMap.get(mon.with(DayOfWeek.SATURDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        thisWeekStatus[5] = hashMap.get(mon.with(DayOfWeek.SATURDAY).format((DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
     }
 
-    public StudentStatus[] getThisWeekStatus() {
+    public String[] getThisWeekStatus() {
         return thisWeekStatus;
     }
 

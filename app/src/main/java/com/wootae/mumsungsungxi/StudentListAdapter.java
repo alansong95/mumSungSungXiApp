@@ -1,6 +1,7 @@
 package com.wootae.mumsungsungxi;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,10 +29,23 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         // each data item is just a string in this case
         public TextView name;
         public CardView mCardView;
+        TextView mon;
+        TextView tues;
+        TextView wens;
+        TextView thurs;
+        TextView fri;
+        TextView sat;
+
         public StudentListViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.name_analysis);
             mCardView = view.findViewById(R.id.card_view_analysis);
+            mon = view.findViewById(R.id.analysis_mon_each);
+            tues = view.findViewById(R.id.analysis_tues_each);
+            wens = view.findViewById(R.id.analysis_wens_each);
+            thurs = view.findViewById(R.id.analysis_thurs_each);
+            fri = view.findViewById(R.id.analysis_fri_each);
+            sat = view.findViewById(R.id.analysis_sat_each);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +87,76 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         // - replace the contents of the view with that element
 
         Attendance attendance = attendances.get(position);
+        String[] thisWeek = attendance.getThisWeekStatus();
         holder.name.setText(attendance.getName());
+
+        if (thisWeek[0] != null) {
+            if (thisWeek[0].equals(StudentStatus.ATTENDED)) {
+                holder.mon.setBackgroundColor(Color.parseColor("#008000"));
+                holder.mon.setText("○");
+            } else {
+                holder.mon.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.mon.setText("✕");
+            }
+            holder.mon.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (thisWeek[1] != null) {
+            if (thisWeek[1].equals(StudentStatus.ATTENDED)) {
+                holder.tues.setBackgroundColor(Color.parseColor("#008000"));
+                holder.tues.setText("○");
+            } else {
+                holder.tues.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.tues.setText("✕");
+            }
+            holder.tues.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (thisWeek[2] != null) {
+            if (thisWeek[2].equals(StudentStatus.ATTENDED)) {
+                holder.wens.setBackgroundColor(Color.parseColor("#008000"));
+                holder.wens.setText("○");
+            } else {
+                holder.wens.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.wens.setText("✕");
+            }
+            holder.wens.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (thisWeek[3] != null) {
+            if (thisWeek[3].equals(StudentStatus.ATTENDED)) {
+                holder.thurs.setBackgroundColor(Color.parseColor("#008000"));
+                holder.thurs.setText("○");
+            } else {
+                holder.thurs.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.thurs.setText("✕");
+            }
+            holder.thurs.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (thisWeek[4] != null) {
+            if (thisWeek[4].equals(StudentStatus.ATTENDED)) {
+                holder.fri.setBackgroundColor(Color.parseColor("#008000"));
+                holder.fri.setText("○");
+
+            } else {
+                holder.fri.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.fri.setText("✕");
+            }
+            holder.fri.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (thisWeek[5] != null) {
+            if (thisWeek[5].equals(StudentStatus.ATTENDED)) {
+                holder.sat.setBackgroundColor(Color.parseColor("#008000"));
+                holder.sat.setText("○");
+            } else {
+                holder.sat.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.sat.setText("✕");
+            }
+            holder.sat.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+
         holder.mCardView.setTag(attendance);
     }
 

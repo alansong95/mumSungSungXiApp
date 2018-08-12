@@ -653,7 +653,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         }
     }
 
-    public static void studentAction(Student student, StudentStatus status) {
+    public static void studentAction(Student student, String status) {
         Log.d(TAG, "SENDMESSAGE: " + student.getName() + " is " + status);
 
         DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
@@ -661,38 +661,65 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
         DatabaseReference mStudentAttendanceRef = mAttendanceRef.child(student.getName()).child(date);
 
-        switch (status) {
-            case ARRIVED:
-                System.out.println(date);
+        if (status.equals(StudentStatus.ARRIVED)) {
+            System.out.println(date);
 
-                student.setStatus(StudentStatus.ARRIVED);
-                student.setUpdatedDate(date);
-                mStudentRef.setValue(student);
-                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+            student.setStatus(StudentStatus.ARRIVED);
+            student.setUpdatedDate(date);
+            mStudentRef.setValue(student);
+            mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
 
 //                sendMessage(student, 등원메세지);
-                // update for analysis
-                break;
-            case DEPARTED:
-//                sendMessage(student, 하원);
-                // update for analysis
+            // update for analysis
+        } else if (status.equals(StudentStatus.DEPARTED)) {
+            //                sendMessage(student, 하원);
+            // update for analysis
 
-                student.setStatus(StudentStatus.DEPARTED);
-                student.setUpdatedDate(date);
-                mStudentRef.setValue(student);
-                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+            student.setStatus(StudentStatus.DEPARTED);
+            student.setUpdatedDate(date);
+            mStudentRef.setValue(student);
+            mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+        } else if (status.equals(StudentStatus.ABSENT)) {
+            // update for analysis
 
-                break;
-            case ABSENT:
-                // update for analysis
-
-                student.setStatus(StudentStatus.ABSENT);
-                student.setUpdatedDate(date);
-                mStudentRef.setValue(student);
-                mStudentAttendanceRef.setValue(StudentStatus.ABSENT);
-
-                break;
+            student.setStatus(StudentStatus.ABSENT);
+            student.setUpdatedDate(date);
+            mStudentRef.setValue(student);
+            mStudentAttendanceRef.setValue(StudentStatus.ABSENT);
         }
+
+//        switch (status) {
+//            case StudentStatus.ARRIVED:
+//                System.out.println(date);
+//
+//                student.setStatus(StudentStatus.ARRIVED);
+//                student.setUpdatedDate(date);
+//                mStudentRef.setValue(student);
+//                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+//
+////                sendMessage(student, 등원메세지);
+//                // update for analysis
+//                break;
+//            case DEPARTED:
+////                sendMessage(student, 하원);
+//                // update for analysis
+//
+//                student.setStatus(StudentStatus.DEPARTED);
+//                student.setUpdatedDate(date);
+//                mStudentRef.setValue(student);
+//                mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+//
+//                break;
+//            case ABSENT:
+//                // update for analysis
+//
+//                student.setStatus(StudentStatus.ABSENT);
+//                student.setUpdatedDate(date);
+//                mStudentRef.setValue(student);
+//                mStudentAttendanceRef.setValue(StudentStatus.ABSENT);
+//
+//                break;
+//        }
     }
 
     // place holder for now

@@ -73,11 +73,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         if (student.getUpdatedDate().equals(date)) {
-            if (student.getStatus() == StudentStatus.ARRIVED) {
+            if (student.getStatus().equals(StudentStatus.ARRIVED)) {
                 holder.mCardView.setBackgroundColor(Color.parseColor("#008000"));
-            } else if (student.getStatus() == StudentStatus.DEPARTED) {
+            } else if (student.getStatus().equals(StudentStatus.DEPARTED)) {
                 holder.mCardView.setBackgroundColor(Color.parseColor("#0000FF"));
-            } else if (student.getStatus() == StudentStatus.ABSENT) {
+            } else if (student.getStatus().equals(StudentStatus.ABSENT)) {
                 holder.mCardView.setBackgroundColor(Color.parseColor("#FF0000"));
             }
         } else {

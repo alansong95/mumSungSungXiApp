@@ -97,7 +97,7 @@ public class AnalysisActivity extends AppCompatActivity {
             public void onClick(View view) {
                 for (Attendance attendance : attendances) {
                     Log.d("TESTING126", attendance.getName() + "'s map");
-                    for (Map.Entry<String, StudentStatus> entry : attendance.getMap().entrySet()) {
+                    for (Map.Entry<String, String> entry : attendance.getMap().entrySet()) {
                         Log.d("TESTING126", "key: " + entry.getKey() + "value: " + entry.getValue());
                     }
                 }
@@ -128,7 +128,11 @@ public class AnalysisActivity extends AppCompatActivity {
         super.onPause();
 
         detachDatabaseReadListener();
-//        clearLists();
+        clearLists();
+    }
+
+    private void clearLists() {
+        attendances.clear();
     }
 
     private void detachDatabaseReadListener() {
@@ -144,7 +148,7 @@ public class AnalysisActivity extends AppCompatActivity {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Log.d("TESTING125", "key: " + dataSnapshot.getKey() + "value: " + dataSnapshot.getValue());
-                    Attendance attendance = new Attendance(dataSnapshot.getKey(), (HashMap<String, StudentStatus>) dataSnapshot.getValue(), thisWeek[0]);
+                    Attendance attendance = new Attendance(dataSnapshot.getKey(), (HashMap<String, String>) dataSnapshot.getValue(), thisWeek[0]);
                     attendances.add(attendance);
 
                     mAdapter.notifyDataSetChanged();
