@@ -39,6 +39,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         LinearLayout row1;
 
+        LinearLayout monthlyView;
+
         boolean toggle;
 
         public StudentListViewHolder(View view) {
@@ -51,9 +53,12 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             thurs = view.findViewById(R.id.analysis_thurs_each);
             fri = view.findViewById(R.id.analysis_fri_each);
             sat = view.findViewById(R.id.analysis_sat_each);
+
+            monthlyView = view.findViewById(R.id.monthly);
+
             row1 = view.findViewById(R.id.row1);
 
-            row1.setVisibility(View.GONE);
+            monthlyView.setVisibility(View.GONE);
             toggle = true;
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -61,10 +66,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 public void onClick(View view) {
                     Toast.makeText(mContext, name.getText().toString(), Toast.LENGTH_SHORT).show();
                     if (toggle == true) {
-                        row1.setVisibility(View.VISIBLE);
+                        monthlyView.setVisibility(View.VISIBLE);
                         toggle = false;
                     } else {
-                        row1.setVisibility(View.GONE);
+                        monthlyView.setVisibility(View.GONE);
                         toggle = true;
                     }
                 }

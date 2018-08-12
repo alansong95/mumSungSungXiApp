@@ -58,6 +58,10 @@ public class Attendance {
         return thisWeekStatus;
     }
 
+    public void setThisMonthStatus(LocalDateTime mon) {
+
+    }
+
 
 
 }
