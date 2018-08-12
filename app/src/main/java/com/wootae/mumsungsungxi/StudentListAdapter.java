@@ -38,6 +38,11 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         TextView sat;
 
         LinearLayout row1;
+        LinearLayout row2;
+        LinearLayout row3;
+        LinearLayout row4;
+        LinearLayout row5;
+        LinearLayout row6;
 
         LinearLayout monthlyView;
 
@@ -57,6 +62,11 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             monthlyView = view.findViewById(R.id.monthly);
 
             row1 = view.findViewById(R.id.row1);
+            row2 = view.findViewById(R.id.row2);
+            row3 = view.findViewById(R.id.row3);
+            row4 = view.findViewById(R.id.row4);
+            row5 = view.findViewById(R.id.row5);
+            row6 = view.findViewById(R.id.row6);
 
             monthlyView.setVisibility(View.GONE);
             toggle = true;
@@ -74,7 +84,13 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                     }
                 }
             });
+
+            getThisMonthStatus();
         }
+    }
+
+    private void getThisMonthStatus() {
+
     }
 
     public StudentListAdapter(Context context, List<Attendance> attendances) {

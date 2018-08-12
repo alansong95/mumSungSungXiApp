@@ -3,7 +3,7 @@ package com.wootae.mumsungsungxi;
 import android.util.Log;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 
@@ -15,6 +15,8 @@ public class Attendance {
     HashMap<String, String> hashMap;
     String name;
     String[] thisWeekStatus;
+    String[] thisMonthStatus;
+    LocalDate thisMonthDates;
 
     public Attendance(String name, HashMap<String, String> map) {
         hashMap = map;
@@ -23,7 +25,7 @@ public class Attendance {
         thisWeekStatus = new String[6];
     }
 
-    public Attendance(String name, HashMap<String, String> map, LocalDateTime mon) {
+    public Attendance(String name, HashMap<String, String> map, LocalDate mon) {
         hashMap = map;
         this.name = name;
 
@@ -43,7 +45,7 @@ public class Attendance {
         return name;
     }
 
-    public void setThisWeekStatus(LocalDateTime mon) {
+    public void setThisWeekStatus(LocalDate mon) {
         String monStr = mon.format(DateTimeFormatter.ofPattern("yyyy--MM-dd"));
 
         thisWeekStatus[0] = hashMap.get(monStr);
@@ -58,8 +60,8 @@ public class Attendance {
         return thisWeekStatus;
     }
 
-    public void setThisMonthStatus(LocalDateTime mon) {
-
+    public void setThisMonthStatus(LocalDate mon) {
+        LocalDate fristDay = mon.withDayOfMonth(1);
     }
 
 

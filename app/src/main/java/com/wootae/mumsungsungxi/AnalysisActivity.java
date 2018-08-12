@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +44,8 @@ public class AnalysisActivity extends AppCompatActivity {
 
     private List<Attendance> attendances;
 
-    LocalDateTime today;
-    LocalDateTime[] thisWeek;
+    LocalDate today;
+    LocalDate[] thisWeek;
     String[] thisWeekStr;
 
     @Override
@@ -65,8 +65,8 @@ public class AnalysisActivity extends AppCompatActivity {
         sat = findViewById(R.id.analysis_sat);
 
 //        String monday = LocalDateTime.now().with(DayOfWeek.MONDAY).format(DateTimeFormatter.ofPattern("M/d"));
-        today = LocalDateTime.now();
-        thisWeek = new LocalDateTime[6];
+        today = LocalDate.now();
+        thisWeek = new LocalDate[6];
         thisWeek[0] = today.with(DayOfWeek.MONDAY);
         thisWeek[1] = today.with(DayOfWeek.TUESDAY);
         thisWeek[2] = today.with(DayOfWeek.WEDNESDAY);
