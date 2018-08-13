@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -22,6 +25,8 @@ import java.util.List;
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder> {
     private List<Attendance> attendances;
     private static Context mContext;
+
+    LinearLayout[] rows;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -36,13 +41,6 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         TextView thurs;
         TextView fri;
         TextView sat;
-
-        LinearLayout row1;
-        LinearLayout row2;
-        LinearLayout row3;
-        LinearLayout row4;
-        LinearLayout row5;
-        LinearLayout row6;
 
         LinearLayout monthlyView;
 
@@ -61,12 +59,20 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
             monthlyView = view.findViewById(R.id.monthly);
 
-            row1 = view.findViewById(R.id.row1);
-            row2 = view.findViewById(R.id.row2);
-            row3 = view.findViewById(R.id.row3);
-            row4 = view.findViewById(R.id.row4);
-            row5 = view.findViewById(R.id.row5);
-            row6 = view.findViewById(R.id.row6);
+            rows = new LinearLayout[] {
+                    view.findViewById(R.id.row1),
+                view.findViewById(R.id.row2),
+                view.findViewById(R.id.row3),
+                view.findViewById(R.id.row4),
+                view.findViewById(R.id.row5),
+                view.findViewById(R.id.row6),
+                    view.findViewById(R.id.row7),
+                    view.findViewById(R.id.row8),
+                    view.findViewById(R.id.row9),
+                    view.findViewById(R.id.row10),
+                    view.findViewById(R.id.row11),
+                    view.findViewById(R.id.row12),
+            };
 
             monthlyView.setVisibility(View.GONE);
             toggle = true;
@@ -85,17 +91,153 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 }
             });
 
-            getLastMonthStatus((Attendance) mCardView.getTag());
-            getThisMonthStatus((Attendance) mCardView.getTag());
+
         }
     }
 
-    private void getLastMonthStatus(Attendance attendance) {
+    private int getLastMonthStatus(Attendance attendance, LinearLayout[] rows) {
+        LocalDate[] dates = attendance.lastMonthDates;
+        String[] status = attendance.getLastMonthStatus();
+        int currentRowNum = 1;
+        LinearLayout currentRow = rows[currentRowNum-1];
 
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
+        layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
+
+        // name padding
+        TextView tv_name = new TextView(mContext);
+        tv_name.setLayoutParams(layoutParams);
+        tv_name.setText(dates[0].getMonth() + "월");
+        currentRow.addView(tv_name);
+
+
+        // prepading for the first row
+        if (dates[0].getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+
+        } else {
+            for (int i = 1; i < dates[0].getDayOfWeek().getValue(); i++) {
+                TextView tv = new TextView(mContext);
+                tv.setLayoutParams(layoutParams);
+                currentRow.addView(tv);
+                Log.d("TESTING135", "adding prepading");
+            }
+        }
+
+
+
+
+        for (int i = 0; i < status.length; i++) {
+            if (dates[i].getDayOfWeek() == DayOfWeek.SUNDAY) {
+                if (i == 0) {
+                    continue;
+                }
+                currentRowNum++;
+                currentRow = rows[currentRowNum-1];
+
+                TextView tv = new TextView(mContext);
+                tv.setLayoutParams(layoutParams);
+                currentRow.addView(tv);
+
+                continue;
+            }
+
+
+
+            TextView tv = new TextView(mContext);
+            tv.setLayoutParams(layoutParams);
+            tv.setText(dates[i].format(DateTimeFormatter.ofPattern("M/d")).toString());
+
+            if (status[i] != null) {
+                if (status[i].equals(StudentStatus.ATTENDED)) {
+                    tv.setBackgroundColor(Color.parseColor("#008000"));
+                } else if (status[i].equals(StudentStatus.ABSENT)) {
+                    tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                }
+            }
+
+            currentRow.addView(tv);
+        }
+
+        // postpadding for the last row
+        for (int i = dates[status.length-1].getDayOfWeek().getValue(); i < DayOfWeek.SATURDAY.getValue(); i++) {
+            Log.d("TESTING133", "date: " + dates[status.length]);
+
+            Log.d("TESTING132", "i: " + i );
+            TextView tv = new TextView(mContext);
+            tv.setLayoutParams(layoutParams);
+            currentRow.addView(tv);
+        }
+
+
+        return currentRowNum;
     }
 
-    private void getThisMonthStatus(Attendance attendance) {
+    private int getThisMonthStatus(Attendance attendance, LinearLayout[] rows, int startingRow) {
+        LocalDate[] dates = attendance.thisMonthDates;
+        String[] status = attendance.getThisMonthStatus();
+        int currentRowNum = startingRow;
+        LinearLayout currentRow = rows[currentRowNum-1];
 
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
+        layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
+
+        // prepading name
+        TextView tv_name = new TextView(mContext);
+        tv_name.setLayoutParams(layoutParams);
+        tv_name.setText(dates[0].getMonth() + "월");
+        currentRow.addView(tv_name);
+
+        // prepading for the first row
+        if (dates[0].getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+
+        } else {
+            for (int i = 1; i < dates[0].getDayOfWeek().getValue(); i++) {
+                TextView tv = new TextView(mContext);
+                tv.setLayoutParams(layoutParams);
+                currentRow.addView(tv);
+                Log.d("TESTING135", "adding prepading");
+            }
+        }
+
+        for (int i = 0; i < status.length; i++) {
+            if (dates[i].getDayOfWeek() == DayOfWeek.SUNDAY) {
+                if (i == 0) {
+                    continue;
+                }
+                currentRowNum++;
+                currentRow = rows[currentRowNum-1];
+
+                TextView tv = new TextView(mContext);
+                tv.setLayoutParams(layoutParams);
+                currentRow.addView(tv);
+
+                continue;
+            }
+
+            TextView tv = new TextView(mContext);
+            tv.setLayoutParams(layoutParams);
+            tv.setText(dates[i].format(DateTimeFormatter.ofPattern("M/d")).toString());
+
+            if (status[i] != null) {
+                if (status[i].equals(StudentStatus.ATTENDED)) {
+                    tv.setBackgroundColor(Color.parseColor("#008000"));
+                } else if (status[i].equals(StudentStatus.ABSENT)) {
+                    tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                }
+            }
+
+
+            currentRow.addView(tv);
+        }
+
+        // postpadding for the last row
+        for (int i = dates[status.length-1].getDayOfWeek().getValue(); i < DayOfWeek.SATURDAY.getValue(); i++) {
+            TextView tv = new TextView(mContext);
+            tv.setLayoutParams(layoutParams);
+            currentRow.addView(tv);
+        }
+
+        return currentRowNum;
     }
 
     public StudentListAdapter(Context context, List<Attendance> attendances) {
@@ -200,6 +342,9 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         }
 
         holder.mCardView.setTag(attendance);
+
+        int startingRow = getLastMonthStatus((Attendance) attendance, rows);
+        int endingRow = getThisMonthStatus((Attendance) attendance, rows, startingRow + 1);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

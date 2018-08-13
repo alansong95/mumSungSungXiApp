@@ -176,11 +176,12 @@ public class Attendance {
     public void setLastMonthStatus() {
         for (int i = 0; i < lastMonthLastDay.getDayOfMonth(); i++) {
             lastMonthStatus[i] = hashMap.get(lastMonthFirstDay.plusDays(i).toString());
+            Log.d("TESTING131", lastMonthFirstDay.plusDays(i).toString() + ": " + lastMonthStatus[i]);
         }
     }
 
     public String[] getLastMonthStatus() {
-        return thisMonthStatus;
+        return lastMonthStatus;
     }
 
 
