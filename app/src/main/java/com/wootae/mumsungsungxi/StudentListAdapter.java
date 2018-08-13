@@ -2,9 +2,11 @@ package com.wootae.mumsungsungxi;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,6 +152,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
             TextView tv = new TextView(mContext);
             tv.setLayoutParams(layoutParams);
+            tv.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+            tv.setGravity(Gravity.CENTER);
             tv.setText(dates[i].format(DateTimeFormatter.ofPattern("M/d")).toString());
 
             if (status[i] != null) {
@@ -160,6 +164,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                     tv.setBackgroundColor(Color.parseColor("#FF0000"));
                     absented++;
                 }
+                tv.setTextColor(Color.parseColor("#FFFFFF"));
             }
 
             currentRow.addView(tv);
@@ -264,7 +269,9 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
             TextView tv = new TextView(mContext);
             tv.setLayoutParams(layoutParams);
+            tv.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
             tv.setText(dates[i].format(DateTimeFormatter.ofPattern("M/d")).toString());
+            tv.setGravity(Gravity.CENTER);
 
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
@@ -274,6 +281,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                     tv.setBackgroundColor(Color.parseColor("#FF0000"));
                     absented++;
                 }
+                tv.setTextColor(Color.parseColor("#FFFFFF"));
             }
 
 

@@ -30,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -334,8 +335,34 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         mStudentsRef.child(student.getUid()).removeValue();
     }
     public void editStudentOnDatabase(final String name, final String phoneNumber, final String section, final String uid, Uri pictureUri) {
+        // change on attendance
+        final Student student = getStudent(uid);
+        final DatabaseReference mOldRef = mAttendanceRef.child(student.getName());
+        Log.d("TESTING137", "student name: " + student.getName());
+        final DatabaseReference mNewRef = mAttendanceRef.child(name);
+        mOldRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+//                HashMap<String, String> map = (HashMap<String, String>) dataSnapshot.getValue();
+
+//                mNewRef.child(map.).setValue(map);
+                Log.d("TESTING138", "key: " + dataSnapshot.getKey());
+                Log.d("TESTING138", "value: " + dataSnapshot.getValue());
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Log.d("TESTING136", "key: " + postSnapshot.getKey());
+                    Log.d("TESTING136", "value: " + postSnapshot.getValue());
+                    mNewRef.child(postSnapshot.getKey()).setValue(postSnapshot.getValue());
+                }
+                mOldRef.removeValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         if (pictureUri == null) {
-            Student student = getStudent(uid);
             String oldSection = student.getSection();
 
             student.setName(name);
@@ -378,8 +405,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             mStudentRef.setValue(student);
         } else {
             // upload picture
-            final Student student = getStudent(uid);
-
             Log.d(TAG, "EDITSTUDENTONDATBASE: " + pictureUri);
             Bitmap bmp = null;
             try {
