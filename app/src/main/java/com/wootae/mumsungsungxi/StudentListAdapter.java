@@ -72,6 +72,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                     view.findViewById(R.id.row10),
                     view.findViewById(R.id.row11),
                     view.findViewById(R.id.row12),
+                    view.findViewById(R.id.row13),
+                    view.findViewById(R.id.row14),
             };
 
             monthlyView.setVisibility(View.GONE);
@@ -101,13 +103,16 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         int currentRowNum = 1;
         LinearLayout currentRow = rows[currentRowNum-1];
 
+        int attended = 0 ;
+        int absented = 0;
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
         layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
 
         // name padding
         TextView tv_name = new TextView(mContext);
         tv_name.setLayoutParams(layoutParams);
-        tv_name.setText(dates[0].getMonth() + "월");
+        tv_name.setText(dates[0].getMonth().getValue() + "월");
         currentRow.addView(tv_name);
 
 
@@ -150,8 +155,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
                     tv.setBackgroundColor(Color.parseColor("#008000"));
+                    attended++;
                 } else if (status[i].equals(StudentStatus.ABSENT)) {
                     tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                    absented++;
                 }
             }
 
@@ -168,6 +175,44 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             currentRow.addView(tv);
         }
 
+        currentRowNum++;
+        currentRow = rows[currentRowNum-1];
+
+        // monthly total
+        TextView tvBlankBox = new TextView(mContext);
+        TextView tvBlankBox2 = new TextView(mContext);
+        TextView tvBlankBox3 = new TextView(mContext);
+        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        currentRow.addView(tvBlankBox);
+        currentRow.addView(tvBlankBox2);
+        currentRow.addView(tvBlankBox3);
+
+        TextView tvAttendedBox = new TextView(mContext);
+        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAttendedBox.setText("출석: ");
+        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        currentRow.addView(tvAttendedBox);
+
+        TextView tvAttended = new TextView(mContext);
+        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAttended.setText(String.valueOf(attended));
+        currentRow.addView(tvAttended);
+
+        TextView tvAbsentedBox = new TextView(mContext);
+        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAbsentedBox.setText("결석: ");
+        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        currentRow.addView(tvAbsentedBox);
+
+        TextView tvAbsented = new TextView(mContext);
+        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAbsented.setText(String.valueOf(absented));
+        currentRow.addView(tvAbsented);
+
 
         return currentRowNum;
     }
@@ -178,13 +223,16 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         int currentRowNum = startingRow;
         LinearLayout currentRow = rows[currentRowNum-1];
 
+        int attended = 0 ;
+        int absented = 0;
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
         layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
 
         // prepading name
         TextView tv_name = new TextView(mContext);
         tv_name.setLayoutParams(layoutParams);
-        tv_name.setText(dates[0].getMonth() + "월");
+        tv_name.setText(dates[0].getMonth().getValue() + "월");
         currentRow.addView(tv_name);
 
         // prepading for the first row
@@ -221,8 +269,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
                     tv.setBackgroundColor(Color.parseColor("#008000"));
+                    attended++;
                 } else if (status[i].equals(StudentStatus.ABSENT)) {
                     tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                    absented++;
                 }
             }
 
@@ -236,6 +286,43 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             tv.setLayoutParams(layoutParams);
             currentRow.addView(tv);
         }
+
+        currentRowNum++;
+        currentRow = rows[currentRowNum-1];
+        // monthly total
+        TextView tvBlankBox = new TextView(mContext);
+        TextView tvBlankBox2 = new TextView(mContext);
+        TextView tvBlankBox3 = new TextView(mContext);
+        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        currentRow.addView(tvBlankBox);
+        currentRow.addView(tvBlankBox2);
+        currentRow.addView(tvBlankBox3);
+
+        TextView tvAttendedBox = new TextView(mContext);
+        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAttendedBox.setText("출석: ");
+        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        currentRow.addView(tvAttendedBox);
+
+        TextView tvAttended = new TextView(mContext);
+        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAttended.setText(String.valueOf(attended));
+        currentRow.addView(tvAttended);
+
+        TextView tvAbsentedBox = new TextView(mContext);
+        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAbsentedBox.setText("결석: ");
+        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        currentRow.addView(tvAbsentedBox);
+
+        TextView tvAbsented = new TextView(mContext);
+        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        tvAbsented.setText(String.valueOf(absented));
+        currentRow.addView(tvAbsented);
 
         return currentRowNum;
     }
