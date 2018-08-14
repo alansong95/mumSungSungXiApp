@@ -1,5 +1,7 @@
 package com.wootae.mumsungsungxi;
 
+import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -7,16 +9,24 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -26,6 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AnalysisActivity extends AppCompatActivity {
+    private static final String TAG = "ANALYSISACTIVITY_DEBUG";
     TextView mon;
     TextView tues;
     TextView wens;
@@ -177,4 +188,114 @@ public class AnalysisActivity extends AppCompatActivity {
             mAttendanceRef.addChildEventListener(mAttendanceListener);
         }
     }
+
+
+    // menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_analysis, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.excel:
+                createExcelFile();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    // Excel
+    private void createExcelFile() {
+        Toast.makeText(this, "Creating an excel file", Toast.LENGTH_SHORT).show();
+
+//        WritableWorkbook workBook = createWorkBook("attendance.xls");
+//        WritableSheet sheet = createSheet(workBook, "8월", 0);
+//        WritableSheet sheet2 = createSheet(workBook, "9월", 1);
+//        try {
+//            writeCell(1,1, "TESTING", false, sheet);
+//        } catch (WriteException e) {
+//            Log.d(TAG, e.getMessage());
+//        }
+
+        File sdCard = Environment.getExternalStorageDirectory();
+        Log.d("Testing140", "140: "+ sdCard.toString());
+        //add on the your app's path
+        File dir = new File(sdCard.getAbsolutePath() + "/mumSungSungXi");
+        File file = new File(dir, "test.csv");
+
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(file, true);
+            //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            for (int i = 0; i < 10; i++) {
+                outputStream.write((i+1 + ",").getBytes());
+                outputStream.write((i + ",").getBytes());
+
+            }
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+//
+//    public WritableWorkbook createWorkBook(String fileName) {
+//        WorkbookSettings wbSettings = new WorkbookSettings();
+//        wbSettings.setUseTemporaryFileDuringWrite(true);
+//
+//        // get the sdcard's directory
+//        File sdCard = Environment.getExternalStorageDirectory();
+//        Log.d("Testing140", "140: "+ sdCard.toString());
+//        //add on the your app's path
+//        File dir = new File(sdCard.getAbsolutePath() + "/mumSungSungXi");
+//        Log.d("Testing141", "141: " + dir);
+//        //make them in case they're not there
+//        boolean temp = dir.mkdirs();
+//        Log.d("Testing142", "142: " + temp);
+//        //create a standard java.io.File object for the Workbook to use
+//        File wbfile = new File(dir,fileName);
+//
+//        WritableWorkbook wb = null;
+//
+//        try{
+//            //create a new WritableWorkbook using the java.io.File and
+//            //WorkbookSettings from above
+//            wb = Workbook.createWorkbook(wbfile,wbSettings);
+//        }catch(IOException ex){
+//            Log.e(TAG,ex.getStackTrace().toString());
+//            Log.e(TAG, ex.getMessage());
+//        }
+//
+//        return wb;
+//    }
+//
+//    public WritableSheet createSheet(WritableWorkbook wb, String sheetName, int sheetIndex){
+//        //create a new WritableSheet and return it
+//        return wb.createSheet(sheetName, sheetIndex);
+//    }
+//
+//    public void writeCell(int columnPosition, int rowPosition, String contents, boolean headerCell, WritableSheet sheet) throws RowsExceededException, WriteException {
+//        //create a new cell with contents at position
+//        Label newCell = new Label(columnPosition,rowPosition,contents);
+//
+//        if (headerCell){
+//            //give header cells size 10 Arial bolded
+//            WritableFont headerFont = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD);
+//            WritableCellFormat headerFormat = new WritableCellFormat(headerFont);
+//            //center align the cells' contents
+//            headerFormat.setAlignment(Alignment.CENTRE);
+//            newCell.setCellFormat(headerFormat);
+//        }
+//
+//        sheet.addCell(newCell);
+//    }
+
+
 }

@@ -670,10 +670,17 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     // Message
     private void requestMessagePermission() {
         String permission = "android.permission.SEND_SMS";
+        String permission2 = "android.permission.WRITE_EXTERNAL_STORAGE";
         int grant = ContextCompat.checkSelfPermission(this, permission);
+        int grant2 = ContextCompat.checkSelfPermission(this, permission2);
         if (grant != PackageManager.PERMISSION_GRANTED) {
             String[] permission_list = new String[1];
             permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
+        if (grant2 != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission2;
             ActivityCompat.requestPermissions(this, permission_list, 1);
         }
     }
