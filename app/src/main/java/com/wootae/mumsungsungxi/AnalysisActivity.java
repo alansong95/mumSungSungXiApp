@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnalysisActivity extends AppCompatActivity {
+public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.ExcelListener {
     private static final String TAG = "ANALYSISACTIVITY_DEBUG";
     TextView mon;
     TextView tues;
@@ -58,6 +58,11 @@ public class AnalysisActivity extends AppCompatActivity {
     LocalDate today;
     LocalDate[] thisWeek;
     String[] thisWeekStr;
+
+    // Excel Listener
+    public void createExcel(int year, int month) {
+        Toast.makeText(this, "Year: " + year + "Month: " + month, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +206,8 @@ public class AnalysisActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.excel:
-                createExcelFile();
+                ExcelDialog excelDialog = new ExcelDialog();
+                excelDialog.show(getSupportFragmentManager(), "");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -212,6 +218,8 @@ public class AnalysisActivity extends AppCompatActivity {
     // Excel
     private void createExcelFile() {
         Toast.makeText(this, "Creating an excel file", Toast.LENGTH_SHORT).show();
+
+
 
 //        WritableWorkbook workBook = createWorkBook("attendance.xls");
 //        WritableSheet sheet = createSheet(workBook, "8월", 0);
@@ -235,6 +243,7 @@ public class AnalysisActivity extends AppCompatActivity {
             for (int i = 0; i < 10; i++) {
                 outputStream.write((i+1 + ",").getBytes());
                 outputStream.write((i + ",").getBytes());
+                outputStream.write("\n".getBytes());
 
             }
             outputStream.close();
