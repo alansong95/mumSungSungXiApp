@@ -38,12 +38,14 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener, AnnouncementDialog.AnnouncementListener {
     // Debug
@@ -273,7 +275,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 AuthUI.getInstance().signOut(this);
                 return true;
             case R.id.test:
-                printStatus();
+//                printStatus();
+                testing();
                 return true;
             case R.id.announcement:
                 AnnouncementDialog announcementDialog = new AnnouncementDialog();
@@ -772,4 +775,29 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 //            ex.printStackTrace();
 //        }
 //    }
+
+    private void testing() {
+        LocalDate startDate = LocalDate.of(2018, 1, 1);
+        LocalDate today = LocalDate.now();
+
+        Random random = new Random();
+        String value = "";
+
+        for (Student student : students) {
+            LocalDate date = startDate;
+
+            DatabaseReference ref = mAttendanceRef.child(student.getName());
+
+            while (date.compareTo(today) != 0) {
+                if (random.nextBoolean()) {
+                    value = "ATTENDED";
+                } else {
+                    value = "ABSENT";
+                }
+
+                ref.child(date.toString()).setValue(value);
+                date = date.plusDays(1);
+            }
+        }
+    }
 }

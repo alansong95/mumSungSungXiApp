@@ -80,6 +80,8 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
             FileOutputStream outputStream = null;
             try {
                 outputStream = new FileOutputStream(file, false);
+
+                // header (dates)
                 outputStream.write(",".getBytes());
                 //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 for (int j = 0; j < from.getDayOfMonth(); j++) {
@@ -88,6 +90,30 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                     from = from.plusDays(1);
                 }
                 outputStream.write("\n".getBytes());
+
+                // back to 1st of month for contents
+                // contents
+                for (Attendance attendance : attendances) {
+                    HashMap<String, String> map = attendance.getMap();
+
+                    Log.d("TESTING161", "161: " + from.minusDays(1).toString());
+                    Log.d("TESTING161", "161: " + map.get(from.minusDays(1).toString()));
+
+                    if (map.get(from.minusDays(1).toString()) != null) {
+                        // then data for the month exist for this student
+
+                        from = from.minusMonths(1);
+                        Log.d("TESTING162", "162: " + from.toString());
+                        outputStream.write((attendance.getName() + ",").getBytes());
+                        for (int j = 0; j < from.getDayOfMonth(); j++) {
+                            Log.d("TESTING162", "162: " + from.toString());
+                            outputStream.write((map.get(from.toString())+ ",").getBytes());
+                            from = from.plusDays(1);
+                        }
+                        outputStream.write("\n".getBytes());
+                    }
+
+                }
                 outputStream.close();
             } catch (Exception e) {
                 e.printStackTrace();
