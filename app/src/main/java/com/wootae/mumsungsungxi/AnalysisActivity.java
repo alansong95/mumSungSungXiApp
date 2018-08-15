@@ -86,7 +86,7 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                 //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 for (int j = 0; j < from.getDayOfMonth(); j++) {
                     Log.d("TESTING161", "161: ");
-                    outputStream.write((from.getMonth() + "/" + from.getDayOfMonth() + ",").getBytes());
+                    outputStream.write((from.getMonth().getValue() + "/" + from.getDayOfMonth() + ",").getBytes());
                     from = from.plusDays(1);
                 }
                 outputStream.write("\n".getBytes());
@@ -107,7 +107,13 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                         outputStream.write((attendance.getName() + ",").getBytes());
                         for (int j = 0; j < from.getDayOfMonth(); j++) {
                             Log.d("TESTING162", "162: " + from.toString());
-                            outputStream.write((map.get(from.toString())+ ",").getBytes());
+                            String status = map.get(from.toString());
+                            if (status.equals("ATTENDED")) {
+                                outputStream.write(("출석,").getBytes());
+                            } else if (status.equals("ABSENT")) {
+                                outputStream.write(("결석,").getBytes());
+                            }
+
                             from = from.plusDays(1);
                         }
                         outputStream.write("\n".getBytes());

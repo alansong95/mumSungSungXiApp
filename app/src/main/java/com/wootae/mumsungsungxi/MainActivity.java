@@ -159,6 +159,18 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
         mProgressBar = findViewById(R.id.progress_bar);
 
+        // Floating Action Button
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_add_black_48dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AddStudentDialog addStudentDialog = new AddStudentDialog();
+                addStudentDialog.show(getSupportFragmentManager(), "");
+                addStudentDialog.setCancelable(false);
+            }
+        });
+
         // Tablayout & Viewpager
         mViewPager = findViewById(R.id.viewpager);
         mTabLayout = findViewById(R.id.tablayout);
@@ -193,18 +205,6 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
                 }
             }
         };
-
-        // Floating Action Button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.ic_add_black_48dp);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AddStudentDialog addStudentDialog = new AddStudentDialog();
-                addStudentDialog.show(getSupportFragmentManager(), "");
-                addStudentDialog.setCancelable(false);
-            }
-        });
 
         // Initiate Hakwon variables
         students = new ArrayList<>();
