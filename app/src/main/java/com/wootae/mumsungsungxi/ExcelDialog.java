@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.time.LocalDate;
+
 
 /**
  * Created by Alan on 8/14/2018.
@@ -59,18 +61,33 @@ public class ExcelDialog extends DialogFragment {
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            month = Integer.parseInt(etMonth.getText().toString().trim());
-            year = Integer.parseInt(etYear.getText().toString().trim());
+            if (etYear.getText().toString().trim().equals("")) {
+                Toast.makeText(getActivity(), "연도를 입력해 주세요.", Toast.LENGTH_SHORT).show();
 
-            if (month < 1 || month > 12) {
-                Toast.makeText(getActivity(), "월을 바르게 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            }
-            if (year < 2018 || year > 2100) {
-                Toast.makeText(getActivity(), "연도르 바르게 입력해 주세요.", Toast.LENGTH_SHORT).show();
-            }
-            if (month > 0 && month < 13 && year > 2017 && year < 2100) {
-                mListener.createExcel(year, month);
-                dismiss();
+            } else {
+                year = Integer.parseInt(etYear.getText().toString().trim());
+
+                if (etMonth.getText().toString().trim().equals("")) {
+                    Toast.makeText(getActivity(), "월을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    month = Integer.parseInt(etMonth.getText().toString().trim());
+
+                    LocalDate from = LocalDate.of(year, month, 1);
+                    LocalDate today = LocalDate.now();
+
+                    if (month < 1 || month > 12) {
+                        Toast.makeText(getActivity(), "월을 바르게 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (year < 2018 || year > 2100) {
+                        Toast.makeText(getActivity(), "연도르 바르게 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    if (today.compareTo(from) < 0) {
+                        Toast.makeText(getActivity(), "입력값이 올바르지 않습니다.", Toast.LENGTH_SHORT).show();
+                    } else if (month > 0 && month < 13 && year > 2017 && year < 2100) {
+                        mListener.createExcel(year, month);
+                        dismiss();
+                    }
+                }
             }
 
 

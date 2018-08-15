@@ -29,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,16 +63,42 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     // Excel Listener
     public void createExcel(int year, int month) {
         Toast.makeText(this, "Year: " + year + "Month: " + month, Toast.LENGTH_SHORT).show();
+
+        File sdCard = Environment.getExternalStorageDirectory();
+        Log.d("Testing140", "140: "+ sdCard.toString());
+        //add on the your app's path
+        File dir = new File(sdCard.getAbsolutePath() + "/mumSungSungXi");
+
+        LocalDate from = LocalDate.of(year, month, 1);
+        LocalDate today = LocalDate.now();
+        Period intervalPeriod = Period.between(from, today);
+        int monthDiff = 12 * intervalPeriod.getYears() + intervalPeriod.getMonths() + 1;
+
+        for (int i = 0; i < monthDiff; i++) {
+            File file = new File(dir, (from.format(DateTimeFormatter.ofPattern("yyyy-M"))+".csv"));
+
+            FileOutputStream outputStream = null;
+            try {
+                outputStream = new FileOutputStream(file, false);
+                outputStream.write(",".getBytes());
+                //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                for (int j = 0; j < from.getDayOfMonth(); j++) {
+                    Log.d("TESTING161", "161: ");
+                    outputStream.write((from.getMonth() + "/" + from.getDayOfMonth() + ",").getBytes());
+                    from = from.plusDays(1);
+                }
+                outputStream.write("\n".getBytes());
+                outputStream.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);
-
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
 
         mon = findViewById(R.id.analysis_mon);
         tues = findViewById(R.id.analysis_tues);
@@ -126,8 +153,14 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter = new StudentListAdapter(this, attendances);
         mRecyclerView.setAdapter(mAdapter);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        Log.d("TESTING160", "160: ");
 
 
+        attachDatabaseReadListener();
 //        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
 
     }
@@ -135,17 +168,22 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     @Override
     protected void onResume() {
         super.onResume();
-
-        attachDatabaseReadListener();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        detachDatabaseReadListener();
-        clearLists();
+//        detachDatabaseReadListener();
+//        clearLists();
     }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        detachDatabaseReadListener();
+//        clearLists();
+//    }
 
     private void clearLists() {
         attendances.clear();
@@ -172,12 +210,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
 
                 @Override
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                    mAdapter.notifyDataSetChanged();
                 }
 
                 @Override
