@@ -1,6 +1,8 @@
 package com.wootae.mumsungsungxi;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
@@ -180,7 +182,20 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
                     mListener.editStudentRequest(student);
                     return true;
                 case R.id.menu_delete:
-                    MainActivity.deleteStudentFromDatabase(student);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("삭제 알림").setMessage("정말 삭제 하시겠습니까?")
+                            .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    MainActivity.deleteStudentFromDatabase(student);
+                                }
+                            })
+                            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    // do nothing;
+                                }
+                            }).show();
                     return true;
                 default:
             }
