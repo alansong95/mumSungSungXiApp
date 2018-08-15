@@ -3,6 +3,7 @@ package com.wootae.mumsungsungxi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -304,12 +305,19 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         } else {
             // profile picture included
             // compress the image
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+
             Bitmap bmp = null;
             try {
                 bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), pictureUri);
+
+                bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth(), bmp.getHeight(), true);
+                bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
             byte[] fileInBytes = baos.toByteArray();
@@ -409,9 +417,14 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         } else {
             // upload picture
             Log.d(TAG, "EDITSTUDENTONDATBASE: " + pictureUri);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+
             Bitmap bmp = null;
             try {
                 bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), pictureUri);
+                bmp = Bitmap.createScaledBitmap(bmp, bmp.getWidth(), bmp.getHeight(), true);
+                bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

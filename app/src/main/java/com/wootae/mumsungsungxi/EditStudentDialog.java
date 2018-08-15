@@ -84,11 +84,10 @@ public class EditStudentDialog extends DialogFragment {
 
         ivPicture = view.findViewById(R.id.iv_picture);
         if (student.getPictureUri().equals("")) {
-            Glide.with(this).load(R.drawable.default_profile_select).into(ivPicture);
+            Glide.with(this).load(R.drawable.default_profile_select).fitCenter().into(ivPicture);
         } else {
-            Glide.with(this).load(student.getPictureUri()).signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).into(ivPicture);
+            Glide.with(this).load(student.getPictureUri()).signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).fitCenter().into(ivPicture);
 //            Glide.with(this).using(new FirebaseImageLoader()).load(MainActivity.mProfilePictureStorageReference.child(student.getUid())).into(ivPicture);
-            ivPicture.setRotation(90);
         }
 
 
@@ -167,7 +166,6 @@ public class EditStudentDialog extends DialogFragment {
                 mImageUri = data.getData();
 
                 Glide.with(this).load(mImageUri).fitCenter().into(ivPicture);
-                ivPicture.setRotation(90);
                 //resize
                 // or (same thing)
 //                 ivPicture.setImageURI(mImageUri);

@@ -96,7 +96,6 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
 //            Glide.with(mContext).load(student.getPictureUri()).fitCenter().into(holder.thumbnail);
             Glide.with(mContext).load(student.getPictureUri()).signature(new StringSignature(String.valueOf(System.currentTimeMillis()))).fitCenter().into(holder.thumbnail);
-            holder.thumbnail.setRotation(90);
         }
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {

@@ -17,9 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/default_profile_select"
+        android:adjustViewBounds="true"
         android:id="@+id/iv_picture"/>
-
-
 
     <EditText
         android:layout_width="match_parent"
