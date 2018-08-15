@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -75,8 +77,6 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                     view.findViewById(R.id.row10),
                     view.findViewById(R.id.row11),
                     view.findViewById(R.id.row12),
-                    view.findViewById(R.id.row13),
-                    view.findViewById(R.id.row14),
             };
 
             monthlyView.setVisibility(View.GONE);
@@ -109,6 +109,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         int attended = 0 ;
         int absented = 0;
 
+        int tempCount = 0;
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
         layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
 
@@ -117,6 +119,22 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tv_name.setLayoutParams(layoutParams);
         tv_name.setText(dates[0].getMonth().getValue() + "월");
         currentRow.addView(tv_name);
+
+        // attended tv
+        TextView tvAttendedBox = new TextView(mContext);
+        tvAttendedBox.setLayoutParams(layoutParams);
+        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        tvAttendedBox.setGravity(Gravity.CENTER);
+
+
+        // absent tv
+        TextView tvAbsentedBox = new TextView(mContext);
+        tvAbsentedBox.setLayoutParams(layoutParams);
+        tvAbsentedBox.setText("결석: ");
+        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        tvAbsentedBox.setGravity(Gravity.CENTER);
 
 
         // prepading for the first row
@@ -132,8 +150,6 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         }
 
 
-
-
         for (int i = 0; i < status.length; i++) {
             if (dates[i].getDayOfWeek() == DayOfWeek.SUNDAY) {
                 if (i == 0) {
@@ -142,9 +158,17 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 currentRowNum++;
                 currentRow = rows[currentRowNum-1];
 
-                TextView tv = new TextView(mContext);
-                tv.setLayoutParams(layoutParams);
-                currentRow.addView(tv);
+                if (tempCount == 0) {
+                    currentRow.addView(tvAttendedBox);
+                    tempCount++;
+                } else if (tempCount == 1) {
+                    currentRow.addView(tvAbsentedBox);
+                    tempCount++;
+                } else {
+                    TextView tv = new TextView(mContext);
+                    tv.setLayoutParams(layoutParams);
+                    currentRow.addView(tv);
+                }
 
                 continue;
             }
@@ -156,6 +180,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             tv.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
             tv.setGravity(Gravity.CENTER);
             tv.setText(dates[i].format(DateTimeFormatter.ofPattern("M/d")).toString());
+
 
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
@@ -181,43 +206,46 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             currentRow.addView(tv);
         }
 
-        currentRowNum++;
-        currentRow = rows[currentRowNum-1];
+        tvAttendedBox.setText("출석: " + attended);
+        tvAbsentedBox.setText("결석: " + absented);
 
-        // monthly total
-        TextView tvBlankBox = new TextView(mContext);
-        TextView tvBlankBox2 = new TextView(mContext);
-        TextView tvBlankBox3 = new TextView(mContext);
-        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        currentRow.addView(tvBlankBox);
-        currentRow.addView(tvBlankBox2);
-        currentRow.addView(tvBlankBox3);
-
-        TextView tvAttendedBox = new TextView(mContext);
-        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAttendedBox.setText("출석: ");
-        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
-        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        currentRow.addView(tvAttendedBox);
-
-        TextView tvAttended = new TextView(mContext);
-        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAttended.setText(String.valueOf(attended));
-        currentRow.addView(tvAttended);
-
-        TextView tvAbsentedBox = new TextView(mContext);
-        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAbsentedBox.setText("결석: ");
-        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
-        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        currentRow.addView(tvAbsentedBox);
-
-        TextView tvAbsented = new TextView(mContext);
-        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAbsented.setText(String.valueOf(absented));
-        currentRow.addView(tvAbsented);
+//        currentRowNum++;
+//        currentRow = rows[currentRowNum-1];
+//
+//        // monthly total
+//        TextView tvBlankBox = new TextView(mContext);
+//        TextView tvBlankBox2 = new TextView(mContext);
+//        TextView tvBlankBox3 = new TextView(mContext);
+//        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        currentRow.addView(tvBlankBox);
+//        currentRow.addView(tvBlankBox2);
+//        currentRow.addView(tvBlankBox3);
+//
+//        TextView tvAttendedBox = new TextView(mContext);
+//        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAttendedBox.setText("출석: ");
+//        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+//        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+//        currentRow.addView(tvAttendedBox);
+//
+//        TextView tvAttended = new TextView(mContext);
+//        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAttended.setText(String.valueOf(attended));
+//        currentRow.addView(tvAttended);
+//
+//        TextView tvAbsentedBox = new TextView(mContext);
+//        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAbsentedBox.setText("결석: ");
+//        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+//        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+//        currentRow.addView(tvAbsentedBox);
+//
+//        TextView tvAbsented = new TextView(mContext);
+//        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAbsented.setText(String.valueOf(absented));
+//        currentRow.addView(tvAbsented);
 
 
         return currentRowNum;
@@ -232,6 +260,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         int attended = 0 ;
         int absented = 0;
 
+        int tempCount = 0;
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, Math.round(50 * mContext.getResources().getDisplayMetrics().density), 1f);
         layoutParams.setMargins(Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density),Math.round(mContext.getResources().getDisplayMetrics().density));
 
@@ -240,6 +270,23 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tv_name.setLayoutParams(layoutParams);
         tv_name.setText(dates[0].getMonth().getValue() + "월");
         currentRow.addView(tv_name);
+
+        // attended tv
+        TextView tvAttendedBox = new TextView(mContext);
+        tvAttendedBox.setLayoutParams(layoutParams);
+        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        tvAttendedBox.setGravity(Gravity.CENTER);
+
+
+
+        // absent tv
+        TextView tvAbsentedBox = new TextView(mContext);
+        tvAbsentedBox.setLayoutParams(layoutParams);
+        tvAbsentedBox.setText("결석: ");
+        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+        tvAbsentedBox.setGravity(Gravity.CENTER);
 
         // prepading for the first row
         if (dates[0].getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
@@ -261,9 +308,17 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 currentRowNum++;
                 currentRow = rows[currentRowNum-1];
 
-                TextView tv = new TextView(mContext);
-                tv.setLayoutParams(layoutParams);
-                currentRow.addView(tv);
+                if (tempCount == 0) {
+                    currentRow.addView(tvAttendedBox);
+                    tempCount++;
+                } else if (tempCount == 1) {
+                    currentRow.addView(tvAbsentedBox);
+                    tempCount++;
+                } else {
+                    TextView tv = new TextView(mContext);
+                    tv.setLayoutParams(layoutParams);
+                    currentRow.addView(tv);
+                }
 
                 continue;
             }
@@ -296,42 +351,47 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             currentRow.addView(tv);
         }
 
-        currentRowNum++;
-        currentRow = rows[currentRowNum-1];
-        // monthly total
-        TextView tvBlankBox = new TextView(mContext);
-        TextView tvBlankBox2 = new TextView(mContext);
-        TextView tvBlankBox3 = new TextView(mContext);
-        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        currentRow.addView(tvBlankBox);
-        currentRow.addView(tvBlankBox2);
-        currentRow.addView(tvBlankBox3);
+        tvAttendedBox.setText("출석: " + attended);
+        tvAbsentedBox.setText("결석: " + absented);
 
-        TextView tvAttendedBox = new TextView(mContext);
-        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAttendedBox.setText("출석: ");
-        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
-        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        currentRow.addView(tvAttendedBox);
+//        currentRowNum++;
+//        currentRow = rows[currentRowNum-1];
+//        // monthly total
+//        TextView tvBlankBox = new TextView(mContext);
+//        TextView tvBlankBox2 = new TextView(mContext);
+//        TextView tvBlankBox3 = new TextView(mContext);
+//        tvBlankBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvBlankBox2.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvBlankBox3.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        currentRow.addView(tvBlankBox);
+//        currentRow.addView(tvBlankBox2);
+//        currentRow.addView(tvBlankBox3);
+//
+//        TextView tvAttendedBox = new TextView(mContext);
+//        tvAttendedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAttendedBox.setText("출석: ");
+//        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+//        tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
+//        currentRow.addView(tvAttendedBox);
+//
+//        TextView tvAttended = new TextView(mContext);
+//        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAttended.setText(String.valueOf(attended));
+//        currentRow.addView(tvAttended);
+//
+//        TextView tvAbsentedBox = new TextView(mContext);
+//        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAbsentedBox.setText("결석: ");
+//        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+//        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
+//        currentRow.addView(tvAbsentedBox);
+//
+//        TextView tvAbsented = new TextView(mContext);
+//        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+//        tvAbsented.setText(String.valueOf(absented));
+//        currentRow.addView(tvAbsented);
 
-        TextView tvAttended = new TextView(mContext);
-        tvAttended.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAttended.setText(String.valueOf(attended));
-        currentRow.addView(tvAttended);
 
-        TextView tvAbsentedBox = new TextView(mContext);
-        tvAbsentedBox.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAbsentedBox.setText("결석: ");
-        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
-        tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        currentRow.addView(tvAbsentedBox);
-
-        TextView tvAbsented = new TextView(mContext);
-        tvAbsented.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
-        tvAbsented.setText(String.valueOf(absented));
-        currentRow.addView(tvAbsented);
 
         return currentRowNum;
     }

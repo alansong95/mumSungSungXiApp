@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="prev_attended">1357911</item>
+    <item type="id" name="prev_absent">1357913</item>
+    <item type="id" name="this_attended">1357915</item>
+    <item type="id" name="this_absent">1357917</item>
+
+</resources>
