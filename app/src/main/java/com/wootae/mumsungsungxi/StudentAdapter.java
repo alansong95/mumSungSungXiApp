@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -76,12 +77,13 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         if (student.getUpdatedDate().equals(date)) {
             if (student.getStatus().equals(StudentStatus.ARRIVED)) {
-                holder.mCardView.setBackgroundColor(Color.parseColor("#008000"));
+                holder.mCardView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
             } else if (student.getStatus().equals(StudentStatus.DEPARTED)) {
                 holder.mCardView.setBackgroundColor(Color.parseColor("#0000FF"));
             } else if (student.getStatus().equals(StudentStatus.ABSENT)) {
                 holder.mCardView.setBackgroundColor(Color.parseColor("#FF0000"));
             }
+            holder.name.setTextColor(Color.parseColor("#FFFFFF"));
         } else {
 
         }

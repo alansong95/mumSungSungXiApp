@@ -1,11 +1,9 @@
 package com.wootae.mumsungsungxi;
 
-import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
@@ -50,15 +46,19 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     private RecyclerView.LayoutManager mLayoutManager;
 
     private ChildEventListener mAttendanceListener;
+    private ChildEventListener mStudentListener;
 
     private static final DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     private static DatabaseReference mAttendanceRef = mRootRef.child("attendance");
+    private static DatabaseReference mStudentsRef = mRootRef.child("students");
 
     private List<Attendance> attendances;
 
     LocalDate today;
     LocalDate[] thisWeek;
     String[] thisWeekStr;
+
+    List<Student> students;
 
     // Excel Listener
     public void createExcel(int year, int month) {
@@ -99,12 +99,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                     Log.d("TESTING161", "161: " + from.minusDays(1).toString());
                     Log.d("TESTING161", "161: " + map.get(from.minusDays(1).toString()));
 
-                    if (map.get(from.minusDays(1).toString()) != null) {
+                    if (map.get(from.minusDays(1).toString()) != null) { // fix this
                         // then data for the month exist for this student
 
                         from = from.minusMonths(1);
                         Log.d("TESTING162", "162: " + from.toString());
-                        outputStream.write((attendance.getName() + ",").getBytes());
+                        outputStream.write((getStudent(attendance.getName()).getName() + ",").getBytes());
                         for (int j = 0; j < from.getDayOfMonth(); j++) {
                             Log.d("TESTING162", "162: " + from.toString());
                             String status = map.get(from.toString());
@@ -131,6 +131,8 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);
+
+        students = new ArrayList<>();
 
         mon = findViewById(R.id.analysis_mon);
         tues = findViewById(R.id.analysis_tues);
@@ -183,7 +185,7 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new StudentListAdapter(this, attendances);
+        mAdapter = new StudentListAdapter(this, attendances, students);
         mRecyclerView.setAdapter(mAdapter);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -229,6 +231,40 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     }
 
     private void attachDatabaseReadListener() {
+        if (mStudentListener == null) {
+            mStudentListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Student student = dataSnapshot.getValue(Student.class);
+                    students.add(student);
+
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    mAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+            mStudentsRef.addChildEventListener(mStudentListener);
+        }
+
+
         if (mAttendanceListener == null) {
             mAttendanceListener = new ChildEventListener() {
                 @Override
@@ -278,6 +314,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
             case R.id.excel:
                 ExcelDialog excelDialog = new ExcelDialog();
                 excelDialog.show(getSupportFragmentManager(), "");
+                return true;
+            case R.id.test:
+                Log.d("TESTING170", "170: starting");
+                for (Student student : students) {
+                    Log.d("TESTING170", "170: " + student.getName());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -376,5 +418,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
 //        sheet.addCell(newCell);
 //    }
 
-
+    public Student getStudent(String uid) {
+        for (Student student : students) {
+            if (student.getUid().equals(uid)) {
+                return student;
+            }
+        }
+        return null;
+    }
 }

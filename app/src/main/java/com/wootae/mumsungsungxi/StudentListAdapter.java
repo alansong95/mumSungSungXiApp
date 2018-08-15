@@ -26,6 +26,7 @@ import java.util.List;
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder> {
     private List<Attendance> attendances;
+    private List<Student> students;
     private static Context mContext;
 
     LinearLayout[] rows;
@@ -335,8 +336,9 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         return currentRowNum;
     }
 
-    public StudentListAdapter(Context context, List<Attendance> attendances) {
+    public StudentListAdapter(Context context, List<Attendance> attendances, List<Student> students) {
         this.attendances = attendances;
+        this.students = students;
         mContext = context;
 
         Log.d("TESTING123", "WTF");
@@ -364,10 +366,12 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     public void onBindViewHolder(StudentListViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-
         Attendance attendance = attendances.get(position);
+        Student student = getStudent(attendance.getName());
+
         String[] thisWeek = attendance.getThisWeekStatus();
-        holder.name.setText(attendance.getName());
+
+        holder.name.setText(student.getName());
 
         if (thisWeek[0] != null) {
             if (thisWeek[0].equals(StudentStatus.ATTENDED)) {
@@ -452,5 +456,15 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+
+    public Student getStudent(String uid) {
+        for (Student student : students) {
+            if (student.getUid().equals(uid)) {
+                return student;
+            }
+        }
+        return null;
     }
 }

@@ -4,4 +4,9 @@
         android:id="@+id/excel"
         android:orderInCategory="1"
         android:title="@string/excel" />
+
+    <item
+        android:id="@+id/test"
+        android:orderInCategory="1"
+        android:title="test" />
 </menu>

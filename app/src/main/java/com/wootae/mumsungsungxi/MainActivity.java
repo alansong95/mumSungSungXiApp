@@ -348,30 +348,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     public void editStudentOnDatabase(final String name, final String phoneNumber, final String section, final String uid, Uri pictureUri) {
         // change on attendance
         final Student student = getStudent(uid);
-        final DatabaseReference mOldRef = mAttendanceRef.child(student.getName());
         Log.d("TESTING137", "student name: " + student.getName());
-        final DatabaseReference mNewRef = mAttendanceRef.child(name);
-        mOldRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-//                HashMap<String, String> map = (HashMap<String, String>) dataSnapshot.getValue();
-
-//                mNewRef.child(map.).setValue(map);
-                Log.d("TESTING138", "key: " + dataSnapshot.getKey());
-                Log.d("TESTING138", "value: " + dataSnapshot.getValue());
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Log.d("TESTING136", "key: " + postSnapshot.getKey());
-                    Log.d("TESTING136", "value: " + postSnapshot.getValue());
-                    mNewRef.child(postSnapshot.getKey()).setValue(postSnapshot.getValue());
-                }
-                mOldRef.removeValue();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         if (pictureUri == null) {
             String oldSection = student.getSection();
@@ -707,7 +684,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         DatabaseReference mStudentRef = mStudentsRef.child(student.getUid());
         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        DatabaseReference mStudentAttendanceRef = mAttendanceRef.child(student.getName()).child(date);
+        DatabaseReference mStudentAttendanceRef = mAttendanceRef.child(student.getUid()).child(date);
 
         if (status.equals(StudentStatus.ARRIVED)) {
             System.out.println(date);
@@ -790,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 //    }
 
     private void testing() {
-        LocalDate startDate = LocalDate.of(2018, 1, 1);
+        LocalDate startDate = LocalDate.of(2018, 6, 1);
         LocalDate today = LocalDate.now();
 
         Random random = new Random();
@@ -799,7 +776,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
         for (Student student : students) {
             LocalDate date = startDate;
 
-            DatabaseReference ref = mAttendanceRef.child(student.getName());
+            DatabaseReference ref = mAttendanceRef.child(student.getUid());
 
             while (date.compareTo(today) != 0) {
                 if (random.nextBoolean()) {

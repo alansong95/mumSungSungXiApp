@@ -21,7 +21,7 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/album_cover_height"
+                android:layout_height="170dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
@@ -46,7 +46,7 @@
                 android:layout_centerHorizontal="true"
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
-                android:paddingTop="@dimen/album_title_padding"
+                android:paddingTop="5dp"
                 android:textColor="@color/album_title"
                 android:textSize="@dimen/album_title" />
 
