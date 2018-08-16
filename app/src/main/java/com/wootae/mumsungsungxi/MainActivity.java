@@ -40,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -797,7 +798,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     }
 
     private void testing() {
-        LocalDate startDate = LocalDate.of(2018, 6, 1);
+        LocalDate startDate = LocalDate.of(2018, 5, 1);
         LocalDate today = LocalDate.now();
 
         Random random = new Random();
@@ -809,12 +810,23 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             DatabaseReference ref = mAttendanceRef.child(student.getUid());
 
             while (date.compareTo(today) != 0) {
-                if (random.nextBoolean()) {
-                    value = "ATTENDED";
+                if (date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                    date = date.plusDays(1);
+                    continue;
+                } else if (date.getDayOfWeek() == DayOfWeek.SATURDAY) {
+                    if (random.nextFloat() <= 0.50f) {
+                        value = "ATTENDED";
+                    } else {
+                        date = date.plusDays(1);
+                        continue;
+                    }
                 } else {
-                    value = "ABSENT";
+                    if (random.nextFloat() <= 0.10f) {
+                        value = "ABSENT";
+                    } else {
+                        value = "ATTENDED";
+                    }
                 }
-
                 ref.child(date.toString()).setValue(value);
                 date = date.plusDays(1);
             }

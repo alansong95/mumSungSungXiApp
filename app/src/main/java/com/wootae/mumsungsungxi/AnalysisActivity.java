@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,8 +67,11 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
 
     Context mContext;
 
+    public static ProgressBar mProgressBar;
+
     // Excel Listener
     public void createExcel(int year, int month) {
+        mProgressBar.setVisibility(View.VISIBLE);
         Toast.makeText(this, "Year: " + year + "Month: " + month, Toast.LENGTH_SHORT).show();
 
         File sdCard = Environment.getExternalStorageDirectory();
@@ -92,9 +96,10 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                 //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                 for (int j = 0; j < from.getDayOfMonth(); j++) {
                     Log.d("TESTING161", "161: ");
-                    outputStream.write((from.getMonth().getValue() + "/" + from.getDayOfMonth() + ",").getBytes());
+                    outputStream.write((from.getDayOfMonth() + ",").getBytes());
                     from = from.plusDays(1);
                 }
+                outputStream.write("출석일,결석일".getBytes());
                 outputStream.write("\n".getBytes());
 
                 // back to 1st of month for contents
@@ -105,23 +110,43 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                     Log.d("TESTING161", "161: " + from.minusDays(1).toString());
                     Log.d("TESTING161", "161: " + map.get(from.minusDays(1).toString()));
 
-                    if (map.get(from.minusDays(1).toString()) != null) { // fix this
+                    LocalDate temp = from.minusMonths(1);
+                    boolean exist = false;
+                    for (int k = 0; k < temp.getDayOfMonth(); k++) {
+                        if (map.get(temp.toString()) != null) {
+                            exist = true;
+                            break;
+                        }
+                        temp = temp.plusDays(1);
+                    }
+
+                    if (exist) { // fix this
                         // then data for the month exist for this student
+                        int attended = 0;
+                        int absent = 0;
 
                         from = from.minusMonths(1);
                         Log.d("TESTING162", "162: " + from.toString());
                         outputStream.write((getStudent(attendance.getName()).getName() + ",").getBytes());
                         for (int j = 0; j < from.getDayOfMonth(); j++) {
                             Log.d("TESTING162", "162: " + from.toString());
-                            String status = map.get(from.toString());
-                            if (status.equals("ATTENDED")) {
-                                outputStream.write(("출석,").getBytes());
-                            } else if (status.equals("ABSENT")) {
-                                outputStream.write(("결석,").getBytes());
+                            if (map.get(from.toString()) == null) {
+                                outputStream.write(",".getBytes());
+                            } else {
+                                String status = map.get(from.toString());
+                                if (status.equals("ATTENDED")) {
+                                    outputStream.write(("ㅇ" +
+                                            ",").getBytes());
+                                    attended++;
+                                } else if (status.equals("ABSENT")) {
+                                    outputStream.write(("✕,").getBytes());
+                                    absent++;
+                                }
                             }
 
                             from = from.plusDays(1);
                         }
+                        outputStream.write((attended+","+absent+",").getBytes());
                         outputStream.write("\n".getBytes());
                     }
 
@@ -131,12 +156,16 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                 e.printStackTrace();
             }
         }
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);
+
+        mProgressBar = findViewById(R.id.progress_bar);
+        mProgressBar.setVisibility(View.GONE);
 
         mContext = getApplicationContext();
 
