@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/material_design_padding"
     android:orientation="vertical">
     
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/material_design_padding"
         android:id="@+id/spinner_to">
 
     </Spinner>
@@ -16,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spinner_multi_to"
-        android:prompt="@string/select_recipient"
-        >
+        android:paddingBottom="@dimen/material_design_padding"
+        android:prompt="@string/select_recipient">
 
     </com.wootae.mumsungsungxi.MultiSelectionSpinner>
     <!--android:layout_margin="2dp"-->
@@ -39,6 +41,7 @@
         android:maxLength="100"
         android:inputType="textMultiLine"
         android:gravity="top|left"
+        android:paddingBottom="@dimen/material_design_padding"
         android:scrollbars="vertical">
 
     </EditText>
@@ -46,8 +49,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <Button
             android:layout_width="match_parent"
