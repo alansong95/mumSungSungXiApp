@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -301,6 +302,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                     Log.d("TESTING125", "key: " + dataSnapshot.getKey() + "value: " + dataSnapshot.getValue());
                     Attendance attendance = new Attendance(dataSnapshot.getKey(), (HashMap<String, String>) dataSnapshot.getValue(), thisWeek[0]);
                     attendances.add(attendance);
+                    attendances.sort(new Comparator<Attendance>() {
+                        @Override
+                        public int compare(Attendance a1, Attendance a2) {
+                            return getStudent(a1.getName()).getName().compareTo(getStudent(a2.getName()).getName());
+                        }
+                    });
 
                     mAdapter.notifyDataSetChanged();
                 }

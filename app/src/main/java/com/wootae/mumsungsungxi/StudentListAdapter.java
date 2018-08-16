@@ -100,10 +100,11 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         }
     }
 
-    private int getLastMonthStatus(Attendance attendance, LinearLayout[] rows) {
+    private int getLastMonthStatus(Attendance attendance, LinearLayout[] rows, int startingRow) {
         LocalDate[] dates = attendance.lastMonthDates;
         String[] status = attendance.getLastMonthStatus();
-        int currentRowNum = 1;
+
+        int currentRowNum = startingRow;
         LinearLayout currentRow = rows[currentRowNum-1];
 
         int attended = 0 ;
@@ -251,11 +252,12 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         return currentRowNum;
     }
 
-    private int getThisMonthStatus(Attendance attendance, LinearLayout[] rows, int startingRow) {
+    private int getThisMonthStatus(Attendance attendance, LinearLayout[] rows) {
         LocalDate[] dates = attendance.thisMonthDates;
         String[] status = attendance.getThisMonthStatus();
-        int currentRowNum = startingRow;
+        int currentRowNum = 1;
         LinearLayout currentRow = rows[currentRowNum-1];
+
 
         int attended = 0 ;
         int absented = 0;
@@ -502,8 +504,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         holder.mCardView.setTag(attendance);
 
-        int startingRow = getLastMonthStatus((Attendance) attendance, rows);
-        int endingRow = getThisMonthStatus((Attendance) attendance, rows, startingRow + 1);
+        int startingRow = getThisMonthStatus((Attendance) attendance, rows);
+        int endingRow = getLastMonthStatus((Attendance) attendance, rows, startingRow + 1);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

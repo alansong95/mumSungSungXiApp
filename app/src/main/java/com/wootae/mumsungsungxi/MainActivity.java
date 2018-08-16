@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -384,14 +385,19 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
             if (section.equals(classNames[0])) {
                 classOne.add(student);
+                classOne.sort(new StudentComparer());
             } else if (section.equals(classNames[1])) {
                 classTwo.add(student);
+                classTwo.sort(new StudentComparer());
             } else if (section.equals(classNames[2])) {
                 classThree.add(student);
+                classThree.sort(new StudentComparer());
             } else if (section.equals(classNames[3])) {
                 classFour.add(student);
+                classFour.sort(new StudentComparer());
             } else if (section.equals(classNames[4])) {
                 classFive.add(student);
+                classFive.sort(new StudentComparer());
             } else {
                 Log.d(TAG, "Wrong Section");
             }
@@ -450,14 +456,19 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                     if (section.equals(classNames[0])) {
                         classOne.add(student);
+                        classOne.sort(new StudentComparer());
                     } else if (section.equals(classNames[1])) {
                         classTwo.add(student);
+                        classTwo.sort(new StudentComparer());
                     } else if (section.equals(classNames[2])) {
                         classThree.add(student);
+                        classThree.sort(new StudentComparer());
                     } else if (section.equals(classNames[3])) {
                         classFour.add(student);
+                        classFour.sort(new StudentComparer());
                     } else if (section.equals(classNames[4])) {
                         classFive.add(student);
+                        classFive.sort(new StudentComparer());
                     } else {
                         Log.d(TAG, "Wrong Section");
                     }
@@ -496,14 +507,20 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 
                     if (section.equals(classNames[0])) {
                         classOne.add(student);
+                        classOne.sort(new StudentComparer());
+//                        classOne.sort();
                     } else if (section.equals(classNames[1])) {
                         classTwo.add(student);
+                        classTwo.sort(new StudentComparer());
                     } else if (section.equals(classNames[2])) {
                         classThree.add(student);
+                        classThree.sort(new StudentComparer());
                     } else if (section.equals(classNames[3])) {
                         classFour.add(student);
+                        classFour.sort(new StudentComparer());
                     } else if (section.equals(classNames[4])) {
                         classFive.add(student);
+                        classFive.sort(new StudentComparer());
                     } else {
                         Log.d(TAG, "Wrong Section");
                     }

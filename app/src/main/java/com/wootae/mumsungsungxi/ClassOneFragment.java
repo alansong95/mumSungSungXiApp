@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Alan on 8/7/2018.

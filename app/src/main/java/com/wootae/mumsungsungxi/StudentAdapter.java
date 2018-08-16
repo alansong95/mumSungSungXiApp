@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -213,5 +214,4 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public int getItemCount() {
         return students.size();
     }
-
 }

@@ -57,7 +57,10 @@ public class AnnouncementDialog extends DialogFragment {
         btnCancel = view.findViewById(R.id.btn_cancel);
         spinnerMultiTo = view.findViewById(R.id.spinner_multi_to);
 
-        spinnerMultiTo.setItems(MainActivity.students);
+        List<Student> students = MainActivity.students;
+        students.sort(new StudentComparer());
+
+        spinnerMultiTo.setItems(students);
 
         spinnerToDropdown = getResources().getStringArray(R.array.spinner_to_dropdown);
 
