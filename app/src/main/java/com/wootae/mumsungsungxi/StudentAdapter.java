@@ -79,9 +79,9 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             if (student.getStatus().equals(StudentStatus.ARRIVED)) {
                 holder.mCardView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
             } else if (student.getStatus().equals(StudentStatus.DEPARTED)) {
-                holder.mCardView.setBackgroundColor(Color.parseColor("#0000FF"));
+                holder.mCardView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.departed));
             } else if (student.getStatus().equals(StudentStatus.ABSENT)) {
-                holder.mCardView.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.mCardView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
             }
             holder.name.setTextColor(Color.parseColor("#FFFFFF"));
         } else {

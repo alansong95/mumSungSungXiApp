@@ -61,6 +61,8 @@ public class AnnouncementDialog extends DialogFragment {
 
         spinnerToDropdown = getResources().getStringArray(R.array.spinner_to_dropdown);
 
+        etAnnouncement.setText(R.string.announcement_pre);
+
         // Spinner set up
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerToDropdown);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -1,5 +1,6 @@
 package com.wootae.mumsungsungxi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -51,6 +52,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity implements AddStudentDialog.AddStudentListener, StudentAdapter.EditStudentRequestListener, EditStudentDialog.EditStudentListener, AnnouncementDialog.AnnouncementListener {
     // Debug
     private static final String TAG = "MainActivity_Debug";
+
+    private static Context mContext;
 
     // Static variables
     public static final int NUM_OF_CLASSES = 5;
@@ -157,6 +160,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mContext = getApplicationContext();
 
         mProgressBar = findViewById(R.id.progress_bar);
 
@@ -344,6 +349,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
     }
     public static void deleteStudentFromDatabase(Student student) {
         mStudentsRef.child(student.getUid()).removeValue();
+
+        mAttendanceRef.child(student.getUid()).removeValue();
     }
     public void editStudentOnDatabase(final String name, final String phoneNumber, final String section, final String uid, Uri pictureUri) {
         // change on attendance
@@ -694,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             mStudentRef.setValue(student);
             mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
 
-//                sendMessage(student, 등원메세지);
+            sendMessage(student, arrivalMessage);
             // update for analysis
         } else if (status.equals(StudentStatus.DEPARTED)) {
             //                sendMessage(student, 하원);
@@ -704,6 +711,8 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             student.setUpdatedDate(date);
             mStudentRef.setValue(student);
             mStudentAttendanceRef.setValue(StudentStatus.ATTENDED);
+
+            sendMessage(student, departureMessage);
         } else if (status.equals(StudentStatus.ABSENT)) {
             // update for analysis
 
@@ -747,24 +756,28 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
 //        }
     }
 
-    // place holder for now
-    public void sendMessage(Student student, String message) {
-        Log.d(TAG, message + " sent to: " + student.getName() + " " + student.getPhoneNumber());
-    }
-
+//    // place holder for now
 //    public void sendMessage(Student student, String message) {
-//        // sending sms
-//        try {
-//            SmsManager smsManager = SmsManager.getDefault();
-//            smsManager.sendTextMessage(student.getPhoneNumber(), null, message, null, null);
-//            Toast.makeText(this, "Message Sent",
-//                    Toast.LENGTH_LONG).show();
-//        } catch (Exception ex) {
-//            Toast.makeText(this,ex.getMessage().toString(),
-//                    Toast.LENGTH_LONG).show();
-//            ex.printStackTrace();
-//        }
+//        Log.d(TAG, message + " sent to: " + student.getName() + " " + student.getPhoneNumber());
 //    }
+
+    public static void sendMessage(Student student, String message) {
+        //        Log.d(TAG, message + " sent to: " + student.getName() + " " + student.getPhoneNumber());
+
+        message =  message.replace("ㅇㅇㅇ", student.getName());
+
+        // sending sms
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(student.getPhoneNumber(), null, message, null, null);
+            Toast.makeText(mContext, "Message Sent",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(mContext,ex.getMessage().toString(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
+    }
 
     private void testing() {
         LocalDate startDate = LocalDate.of(2018, 6, 1);

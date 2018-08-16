@@ -84,7 +84,7 @@ public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSp
         _items = new String[students.size()];
         int i = 0;
         for (Student student : students) {
-            _items[i] = student.getName() + " " + student.getSection() + " " + student.getPhoneNumber();
+            _items[i] = student.getName();
             i++;
         }
 

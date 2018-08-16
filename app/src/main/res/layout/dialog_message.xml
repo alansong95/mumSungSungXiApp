@@ -31,7 +31,7 @@
         android:paddingTop="25dp"
         android:paddingBottom="25dp"
         android:layout_marginBottom="3dp"
-        android:background="#0000FF"
+        android:background="@color/departed"
         android:textColor="#FFFFFF"
         android:text="@string/departure" />
 
@@ -43,7 +43,7 @@
         android:textSize="50sp"
         android:paddingTop="25dp"
         android:paddingBottom="25dp"
-        android:background="#FF0000"
+        android:background="@color/absent"
         android:textColor="#FFFFFF"
         android:text="@string/absent" />
 

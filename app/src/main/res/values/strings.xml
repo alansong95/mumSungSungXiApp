@@ -84,6 +84,7 @@
         <item>5교시</item>
         <item>개별 선택</item>
     </string-array>
+    <string name="announcement_pre">◆ 뮤엠성성자이NEST 공지사항 ◆\n</string>
 
 
 </resources>

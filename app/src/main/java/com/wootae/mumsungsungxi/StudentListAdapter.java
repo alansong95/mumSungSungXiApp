@@ -123,7 +123,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         // attended tv
         TextView tvAttendedBox = new TextView(mContext);
         tvAttendedBox.setLayoutParams(layoutParams);
-        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
         tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
         tvAttendedBox.setGravity(Gravity.CENTER);
 
@@ -132,7 +132,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         TextView tvAbsentedBox = new TextView(mContext);
         tvAbsentedBox.setLayoutParams(layoutParams);
         tvAbsentedBox.setText("결석: ");
-        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
         tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
         tvAbsentedBox.setGravity(Gravity.CENTER);
 
@@ -184,10 +184,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
-                    tv.setBackgroundColor(Color.parseColor("#008000"));
+                    tv.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                     attended++;
                 } else if (status[i].equals(StudentStatus.ABSENT)) {
-                    tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                    tv.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                     absented++;
                 }
                 tv.setTextColor(Color.parseColor("#FFFFFF"));
@@ -274,7 +274,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         // attended tv
         TextView tvAttendedBox = new TextView(mContext);
         tvAttendedBox.setLayoutParams(layoutParams);
-        tvAttendedBox.setBackgroundColor(Color.parseColor("#008000"));
+        tvAttendedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
         tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
         tvAttendedBox.setGravity(Gravity.CENTER);
 
@@ -284,7 +284,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         TextView tvAbsentedBox = new TextView(mContext);
         tvAbsentedBox.setLayoutParams(layoutParams);
         tvAbsentedBox.setText("결석: ");
-        tvAbsentedBox.setBackgroundColor(Color.parseColor("#FF0000"));
+        tvAbsentedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
         tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
         tvAbsentedBox.setGravity(Gravity.CENTER);
 
@@ -331,10 +331,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
             if (status[i] != null) {
                 if (status[i].equals(StudentStatus.ATTENDED)) {
-                    tv.setBackgroundColor(Color.parseColor("#008000"));
+                    tv.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                     attended++;
                 } else if (status[i].equals(StudentStatus.ABSENT)) {
-                    tv.setBackgroundColor(Color.parseColor("#FF0000"));
+                    tv.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                     absented++;
                 }
                 tv.setTextColor(Color.parseColor("#FFFFFF"));
@@ -435,10 +435,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[0] != null) {
             if (thisWeek[0].equals(StudentStatus.ATTENDED)) {
-                holder.mon.setBackgroundColor(Color.parseColor("#008000"));
+                holder.mon.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.mon.setText("○");
             } else {
-                holder.mon.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.mon.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.mon.setText("✕");
             }
             holder.mon.setTextColor(Color.parseColor("#FFFFFF"));
@@ -446,10 +446,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[1] != null) {
             if (thisWeek[1].equals(StudentStatus.ATTENDED)) {
-                holder.tues.setBackgroundColor(Color.parseColor("#008000"));
+                holder.tues.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.tues.setText("○");
             } else {
-                holder.tues.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.tues.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.tues.setText("✕");
             }
             holder.tues.setTextColor(Color.parseColor("#FFFFFF"));
@@ -457,10 +457,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[2] != null) {
             if (thisWeek[2].equals(StudentStatus.ATTENDED)) {
-                holder.wens.setBackgroundColor(Color.parseColor("#008000"));
+                holder.wens.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.wens.setText("○");
             } else {
-                holder.wens.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.wens.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.wens.setText("✕");
             }
             holder.wens.setTextColor(Color.parseColor("#FFFFFF"));
@@ -468,10 +468,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[3] != null) {
             if (thisWeek[3].equals(StudentStatus.ATTENDED)) {
-                holder.thurs.setBackgroundColor(Color.parseColor("#008000"));
+                holder.thurs.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.thurs.setText("○");
             } else {
-                holder.thurs.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.thurs.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.thurs.setText("✕");
             }
             holder.thurs.setTextColor(Color.parseColor("#FFFFFF"));
@@ -479,11 +479,11 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[4] != null) {
             if (thisWeek[4].equals(StudentStatus.ATTENDED)) {
-                holder.fri.setBackgroundColor(Color.parseColor("#008000"));
+                holder.fri.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.fri.setText("○");
 
             } else {
-                holder.fri.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.fri.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.fri.setText("✕");
             }
             holder.fri.setTextColor(Color.parseColor("#FFFFFF"));
@@ -491,10 +491,10 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         if (thisWeek[5] != null) {
             if (thisWeek[5].equals(StudentStatus.ATTENDED)) {
-                holder.sat.setBackgroundColor(Color.parseColor("#008000"));
+                holder.sat.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
                 holder.sat.setText("○");
             } else {
-                holder.sat.setBackgroundColor(Color.parseColor("#FF0000"));
+                holder.sat.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
                 holder.sat.setText("✕");
             }
             holder.sat.setTextColor(Color.parseColor("#FFFFFF"));

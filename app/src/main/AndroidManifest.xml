@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AnalysisActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

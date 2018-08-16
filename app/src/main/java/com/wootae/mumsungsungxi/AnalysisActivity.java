@@ -1,12 +1,15 @@
 package com.wootae.mumsungsungxi;
 
+import android.content.Context;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +62,8 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
     String[] thisWeekStr;
 
     List<Student> students;
+
+    Context mContext;
 
     // Excel Listener
     public void createExcel(int year, int month) {
@@ -132,6 +137,8 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);
 
+        mContext = getApplicationContext();
+
         students = new ArrayList<>();
 
         mon = findViewById(R.id.analysis_mon);
@@ -152,12 +159,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
         thisWeek[5] = today.with(DayOfWeek.SATURDAY);
 
         thisWeekStr = new String[6];
-        thisWeekStr[0] = thisWeek[0].format(DateTimeFormatter.ofPattern("M/d"));
-        thisWeekStr[1] = thisWeek[1].format(DateTimeFormatter.ofPattern("M/d"));
-        thisWeekStr[2] = thisWeek[2].format(DateTimeFormatter.ofPattern("M/d"));
-        thisWeekStr[3] = thisWeek[3].format(DateTimeFormatter.ofPattern("M/d"));
-        thisWeekStr[4] = thisWeek[4].format(DateTimeFormatter.ofPattern("M/d"));
-        thisWeekStr[5] = thisWeek[5].format(DateTimeFormatter.ofPattern("M/d"));
+        thisWeekStr[0] = thisWeek[0].format(DateTimeFormatter.ofPattern("d"));
+        thisWeekStr[1] = thisWeek[1].format(DateTimeFormatter.ofPattern("d"));
+        thisWeekStr[2] = thisWeek[2].format(DateTimeFormatter.ofPattern("d"));
+        thisWeekStr[3] = thisWeek[3].format(DateTimeFormatter.ofPattern("d"));
+        thisWeekStr[4] = thisWeek[4].format(DateTimeFormatter.ofPattern("d"));
+        thisWeekStr[5] = thisWeek[5].format(DateTimeFormatter.ofPattern("d"));
 
         mon.setText("월 " + thisWeekStr[0]);
         tues.setText("화 " + thisWeekStr[1]);
@@ -166,20 +173,42 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
         fri.setText("금 " + thisWeekStr[4]);
         sat.setText("토 " + thisWeekStr[5]);
 
-        attendances = new ArrayList<>();
+        mon.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+        tues.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+        wens.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+        thurs.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+        fri.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
+        sat.setBackground(ContextCompat.getDrawable(mContext, R.drawable.border));
 
-        Button btnDebug = findViewById(R.id.btn_debug);
-        btnDebug.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (Attendance attendance : attendances) {
-                    Log.d("TESTING126", attendance.getName() + "'s map");
-                    for (Map.Entry<String, String> entry : attendance.getMap().entrySet()) {
-                        Log.d("TESTING126", "key: " + entry.getKey() + "value: " + entry.getValue());
-                    }
-                }
-            }
-        });
+        mon.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+        tues.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+        wens.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+        thurs.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+        fri.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+        sat.setPadding(0, Math.round(5 * mContext.getResources().getDisplayMetrics().density), 0, Math.round(5 * mContext.getResources().getDisplayMetrics().density));
+
+        mon.setGravity(Gravity.CENTER);
+        tues.setGravity(Gravity.CENTER);
+        wens.setGravity(Gravity.CENTER);
+        thurs.setGravity(Gravity.CENTER);
+        fri.setGravity(Gravity.CENTER);
+        sat.setGravity(Gravity.CENTER);
+
+
+        attendances = new ArrayList<>();
+//
+//        Button btnDebug = findViewById(R.id.btn_debug);
+//        btnDebug.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                for (Attendance attendance : attendances) {
+//                    Log.d("TESTING126", attendance.getName() + "'s map");
+//                    for (Map.Entry<String, String> entry : attendance.getMap().entrySet()) {
+//                        Log.d("TESTING126", "key: " + entry.getKey() + "value: " + entry.getValue());
+//                    }
+//                }
+//            }
+//        });
 
         mRecyclerView = findViewById(R.id.recylcer_view_analysis);
         mLayoutManager = new LinearLayoutManager(this);
