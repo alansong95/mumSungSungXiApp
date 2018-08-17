@@ -282,10 +282,10 @@ public class MainActivity extends AppCompatActivity implements AddStudentDialog.
             case R.id.logout:
                 AuthUI.getInstance().signOut(this);
                 return true;
-            case R.id.test:
-//                printStatus();
-                testing();
-                return true;
+//            case R.id.test:
+////                printStatus();
+//                testing();
+//                return true;
             case R.id.announcement:
                 AnnouncementDialog announcementDialog = new AnnouncementDialog();
                 announcementDialog.show(getSupportFragmentManager(), "");

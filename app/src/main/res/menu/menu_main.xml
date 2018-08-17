@@ -33,10 +33,10 @@
         android:title="@string/logout"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/test"
-        android:orderInCategory="1000"
-        android:title="TEST"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/test"-->
+        <!--android:orderInCategory="1000"-->
+        <!--android:title="TEST"-->
+        <!--app:showAsAction="never" />-->
 
 </menu>

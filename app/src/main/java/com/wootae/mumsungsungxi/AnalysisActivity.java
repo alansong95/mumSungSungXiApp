@@ -380,12 +380,12 @@ public class AnalysisActivity extends AppCompatActivity implements ExcelDialog.E
                 ExcelDialog excelDialog = new ExcelDialog();
                 excelDialog.show(getSupportFragmentManager(), "");
                 return true;
-            case R.id.test:
-                Log.d("TESTING170", "170: starting");
-                for (Student student : students) {
-                    Log.d("TESTING170", "170: " + student.getName());
-                }
-                return true;
+//            case R.id.test:
+//                Log.d("TESTING170", "170: starting");
+//                for (Student student : students) {
+//                    Log.d("TESTING170", "170: " + student.getName());
+//                }
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

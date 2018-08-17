@@ -126,8 +126,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tvAttendedBox.setLayoutParams(layoutParams);
         tvAttendedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
         tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        tvAttendedBox.setGravity(Gravity.CENTER);
-
+        tvAttendedBox.setTextSize(4 * mContext.getResources().getDisplayMetrics().density);
+//        tvAttendedBox.setGravity(Gravity.CENTER);
 
         // absent tv
         TextView tvAbsentedBox = new TextView(mContext);
@@ -135,8 +135,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tvAbsentedBox.setText("결석: ");
         tvAbsentedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
         tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        tvAbsentedBox.setGravity(Gravity.CENTER);
-
+//        tvAbsentedBox.setGravity(Gravity.CENTER);
+        tvAbsentedBox.setTextSize(4 * mContext.getResources().getDisplayMetrics().density);
 
         // prepading for the first row
         if (dates[0].getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
@@ -278,7 +278,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tvAttendedBox.setLayoutParams(layoutParams);
         tvAttendedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.attended));
         tvAttendedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        tvAttendedBox.setGravity(Gravity.CENTER);
+        tvAttendedBox.setTextSize(4 * mContext.getResources().getDisplayMetrics().density);
+//        tvAttendedBox.setGravity(Gravity.CENTER);
 
 
 
@@ -288,7 +289,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         tvAbsentedBox.setText("결석: ");
         tvAbsentedBox.setBackgroundColor(ContextCompat.getColor(mContext, R.color.absent));
         tvAbsentedBox.setTextColor(Color.parseColor("#FFFFFF"));
-        tvAbsentedBox.setGravity(Gravity.CENTER);
+        tvAbsentedBox.setTextSize(4 * mContext.getResources().getDisplayMetrics().density);
+//        tvAbsentedBox.setGravity(Gravity.CENTER);
 
         // prepading for the first row
         if (dates[0].getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
